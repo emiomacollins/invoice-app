@@ -2,7 +2,7 @@
    GLOBAL STYLES
    =============== */
 
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic');
+@import url('https://fonts.googleapis.com/css2?family=Spartan:wght@400;700&display=swap');
 
 *,
 *::before,
@@ -34,7 +34,7 @@ img {
 
 
 body {
-    font-family: 'Roboto',
+    font-family: 'Spartan',
         sans-serif;
     font-size: var(--size-400);
     color: var(--color-dark);
@@ -44,6 +44,7 @@ h1,
 h2,
 h3 {
     line-height: 1.1;
+    font-weight: 700;
 }
 
 h1 {

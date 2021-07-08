@@ -1,10 +1,25 @@
 :root {
 
-    --color-light: #fdfdfd;
-    --color-dark: #27474e;
-    --color-mid: #496970;
-    --color-primary: #f3344a;
-    --color-secondary: #678c94;
+    --color-light: #252945;
+    --color-dark: #141625;
+    --color-mid: #1E2139;
+
+    --color-black: #0C0E16;
+    --color-white: #fff;
+
+    --color-green: #33D69F;
+    --color-green-transparent: hsla(156, 71%, 97%, 0.5);
+
+    --color-orange: #FF8F00;
+    --color-orange-transparent: hsla(34, 100%, 50%, 0.5);
+
+    --color-gray: #DFE3FA;
+    --color-gray-transparent: hsla(240, 9%, 96%, 0.5);
+
+    --color-purple: #7C5DFA;
+    --color-purple-faded: #7E88C3;
+
+    --color-red: #EC5757;
 
     --shadow: 0px 0px 40px rgba(39, 71, 78, 0.1);
 
@@ -13,6 +28,21 @@
     --size-500: 2rem;
     --size-600: 2.5rem;
     --size-700: 3rem;
+}
+
+.lightmode {
+    --color-black: #373B53;
+    --color-white: #0C0E16;
+
+    --color-light: #f9fafe;
+    --color-dark: #F8F8FB;
+    --color-mid: #fff;
+
+    --color-gray: #373B53;
+    --color-green: #33D69F;
+    --color-purple: #7C5DFA;
+    --color-orange: #FF8F00;
+    --color-red: #EC5757;
 }
 
 $tabletMediaQuery: 800px;
