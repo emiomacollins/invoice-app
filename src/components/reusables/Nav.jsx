@@ -7,7 +7,7 @@ const Container = styled.div`
 	position: fixed;
 	left: 0;
 	top: 0;
-	height: 9rem;
+	height: var(--nav-height);
 	width: 100%;
 	background: var(--color-mid);
 	overflow: hidden;
@@ -22,7 +22,7 @@ const Container = styled.div`
 
 	@media (min-width: 800px) {
 		height: 100vh;
-		width: 10rem;
+		width: var(--nav-width);
 		border-top-right-radius: 2rem;
 		border-bottom-right-radius: 2rem;
 		grid-template-columns: unset;
@@ -35,13 +35,13 @@ const Container = styled.div`
 const LogoContainer = styled.div`
 	background: var(--color-purple);
 	height: 100%;
-	width: 10rem;
+	width: var(--nav-width);
 	display: grid;
 	place-content: center;
 	border-bottom-right-radius: 2rem;
 
 	@media (min-width: 800px) {
-		height: 10rem;
+		height: var(--nav-width);
 		width: 100%;
 	}
 `;
@@ -53,7 +53,7 @@ const Logo = styled.img`
 
 const ProfileContainer = styled.div`
 	height: 100%;
-	width: 10rem;
+	width: var(--nav-width);
 	display: grid;
 	place-content: center;
 

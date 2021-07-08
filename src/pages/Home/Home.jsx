@@ -2,7 +2,7 @@ import React from 'react';
 import { HomeContainer } from './HomeStyles';
 
 function Home() {
-	return <HomeContainer className="container block"></HomeContainer>;
+	return <HomeContainer></HomeContainer>;
 }
 
 export default Home;

@@ -11,11 +11,11 @@ const Container = styled.div`
 	display: grid;
 	place-content: center;
 	border-right: 0.5px solid var(--color-gray-transparent);
-	width: 10rem;
+	width: var(--nav-width);
 	height: 100%;
 
 	@media (min-width: 800px) {
-		height: 10rem;
+		height: var(--nav-width);
 		width: 100%;
 		border-bottom: 0.5px solid var(--color-gray-transparent);
 		border-right: unset;
