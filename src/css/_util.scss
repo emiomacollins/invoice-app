@@ -1,0 +1,30 @@
+/* ===============
+   UTILITIES
+   =============== */
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 88%;
+}
+
+.block {
+    padding: 6rem 0
+}
+
+.btn {
+    display: inline-block;
+    padding: .7em 2em;
+    border: 1px solid currentColor;
+    cursor: pointer;
+    color: var(--color-dark);
+    background: transparent;
+    font-size: inherit;
+
+    transition: .2s;
+
+    &:hover {
+        background: var(--color-dark);
+        color: var(--color-light);
+    }
+}

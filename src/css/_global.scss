@@ -1,0 +1,76 @@
+/* ===============
+   GLOBAL STYLES
+   =============== */
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic');
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent
+}
+
+:root {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+    background: transparent
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: var(--color-dark);
+}
+
+img {
+    max-width: 100%;
+}
+
+
+body {
+    font-family: 'Roboto',
+        sans-serif;
+    font-size: var(--size-400);
+    color: var(--color-dark);
+}
+
+h1,
+h2,
+h3 {
+    line-height: 1.1;
+}
+
+h1 {
+    font-size: var(--size-700);
+}
+
+h2 {
+    font-size: var(--size-600);
+}
+
+h3 {
+    font-size: var(--size-500);
+}
+
+p {
+    line-height: 1.4;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    font-size: inherit;
+}
+
+input {
+    font-size: inherit;
+}
