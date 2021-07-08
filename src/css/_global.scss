@@ -10,7 +10,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent
+    -webkit-tap-highlight-color: transparent;
+    transition: background.2s, color.2s;
 }
 
 :root {
@@ -37,7 +38,9 @@ body {
     font-family: 'Spartan',
         sans-serif;
     font-size: var(--size-400);
-    color: var(--color-dark);
+    color: var(--color-white);
+    background: var(--color-dark);
+    min-height: 100vh;
 }
 
 h1,
