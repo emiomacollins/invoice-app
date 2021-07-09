@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import LogoPath from '../../assets/images/logo.svg';
 import ThemeToggle from './ThemeToggle';
@@ -88,7 +89,9 @@ function Nav() {
 	return (
 		<Container>
 			<LogoContainer>
-				<Logo src={LogoPath} alt="" />
+				<Link to="/">
+					<Logo src={LogoPath} alt="" />
+				</Link>
 			</LogoContainer>
 			<ThemeToggle />
 			<ProfileContainer>

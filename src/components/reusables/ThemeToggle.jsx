@@ -10,14 +10,14 @@ import { LOCAL_STORAGE_THEME_KEY } from '../../config';
 const Container = styled.div`
 	display: grid;
 	place-content: center;
-	border-right: 0.4px solid var(--color-text);
+	border-right: 0.7px solid var(--color-text-transparent);
 	width: var(--nav-width);
 	height: 100%;
 
 	@media (min-width: 800px) {
 		height: var(--nav-width);
 		width: 100%;
-		border-bottom: 0.4px solid var(--color-text);
+		border-bottom: 0.7px solid var(--color-text-transparent);
 		border-right: unset;
 	}
 `;

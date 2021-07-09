@@ -1,65 +1,60 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import styled, { css } from 'styled-components';
-import Badge from '../../components/reusables/StyledComponents/Badge';
+import Badge from '../reusables/Badge';
 import { deleteInvoice } from '../../redux/invoicesSlice';
-
-const Card = css`
-	box-shadow: var(--shadow);
-	padding: 3rem;
-	background: var(--color-mid);
-	border-radius: var(--border-radius);
-`;
-
-const Status = styled.div`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	gap: 2rem;
-
-	@media (min-width: 900px) {
-		justify-content: left;
-	}
-`;
-
-const Controls = styled.div`
-	${Card}
-	display: grid;
-	gap: 2rem;
-
-	@media (min-width: 900px) {
-		grid-template-columns: 1fr repeat(3, auto);
-	}
-`;
-
-const Columns = styled.div`
-	display: grid;
-	grid-auto-flow: column;
-	gap: 1rem;
-	justify-content: right;
-
-	@media (max-width: 400px) {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: flex-end;
-
-		.btn:nth-child(3) {
-			order: -1;
-		}
-	}
-`;
+import { formatDate, formatNumber } from '../../Helpers/Util';
+import {
+	Address,
+	Bill,
+	BillDetails,
+	BillRow,
+	BillTo,
+	BillTotal,
+	ClientAddress,
+	Columns,
+	Controls,
+	Dates,
+	Details,
+	DetailsHeader,
+	Email,
+	Status,
+	Title,
+} from './invoiceDetailStyles';
 
 function InvoiceDetail({ invoice, history }) {
 	const dispatch = useDispatch();
 	console.log(invoice);
 
-	const { status } = invoice;
+	const {
+		status,
+		id,
+		description,
+		clientAddress,
+		paymentDue,
+		createdAt,
+		clientName,
+		senderAddress,
+		clientEmail,
+		items,
+		total,
+	} = invoice;
 
 	function handleDeleteInvoice() {
 		dispatch(deleteInvoice(invoice.id));
 		history.push('/');
 	}
+
+	const itemsList = items.map(({ name, quantity, price, total }, idx) => {
+		return (
+			<BillRow key={idx}>
+				<h4 className="name">{name}</h4>
+				<h4 className="quantity">{quantity}</h4>
+				<h4 className="price">£ {formatNumber(price)}</h4>
+				<h4 className="total">£ {formatNumber(total)}</h4>
+			</BillRow>
+		);
+	});
 
 	return (
 		<>
@@ -68,7 +63,6 @@ function InvoiceDetail({ invoice, history }) {
 					<p>Status</p>
 					<Badge status={status} />
 				</Status>
-
 				<Columns>
 					<button className="btn btn--gray">Edit</button>
 					<button onClick={handleDeleteInvoice} className="btn btn--red">
@@ -77,6 +71,68 @@ function InvoiceDetail({ invoice, history }) {
 					<button className="btn">Mark as paid</button>
 				</Columns>
 			</Controls>
+
+			<Details>
+				<DetailsHeader>
+					<Title>
+						<h3>
+							<span className="accent">#</span>
+							{id}
+						</h3>
+						<p>{description}</p>
+					</Title>
+					<Address>
+						<p>{senderAddress.street}</p>
+						<p>{senderAddress.city}</p>
+						<p>{senderAddress.postCode}</p>
+						<p>{senderAddress.country}</p>
+					</Address>
+				</DetailsHeader>
+
+				<Dates>
+					<div>
+						<p>Invoice date</p>
+						<h3>{formatDate(createdAt)}</h3>
+					</div>
+					<div>
+						<p>Payment due</p>
+						<h3>{formatDate(paymentDue)}</h3>
+					</div>
+				</Dates>
+
+				<BillTo>
+					<p>Bill to</p>
+					<h3>{clientName}</h3>
+					<ClientAddress>
+						<p>{clientAddress.street}</p>
+						<p>{clientAddress.city}</p>
+						<p>{clientAddress.postCode}</p>
+						<p>{clientAddress.country}</p>
+					</ClientAddress>
+				</BillTo>
+
+				<Email>
+					<p>Sent to</p>
+					<h3>{clientEmail}</h3>
+				</Email>
+
+				<Bill>
+					<BillDetails>
+						<BillRow>
+							<p className="name">Item Name</p>
+							<p className="quantity">QTY.</p>
+							<p className="price">Price</p>
+							<p className="total">Total</p>
+						</BillRow>
+						{itemsList}
+					</BillDetails>
+
+					<BillTotal>
+						<h4>Amount Due</h4>
+						<h2>£{formatNumber(total)}</h2>
+					</BillTotal>
+				</Bill>
+			</Details>
 		</>
 	);
 }

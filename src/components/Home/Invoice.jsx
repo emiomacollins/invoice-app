@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { formatDate, formatNumber } from '../../Helpers/Util';
-import Badge from '../reusables/StyledComponents/Badge';
+import Badge from '../reusables/Badge';
 import { Link } from 'react-router-dom';
 
 const Container = styled.div`
@@ -46,7 +46,6 @@ const Name = styled.p`
 `;
 
 function Invoice({ invoice }) {
-	console.log(invoice);
 	const { id, clientName, paymentDue, total, status } = invoice;
 
 	return (
