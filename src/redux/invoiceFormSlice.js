@@ -26,10 +26,12 @@ export const { toggleExpanded, setIsEditing } = invoiceFormSlice.actions;
 
 // SELECTORS
 const getInvoiceFormState = (store) => store.invoiceForm;
+
 export const getInvoiceFormExpanded = createSelector(
 	getInvoiceFormState,
 	({ expanded }) => expanded
 );
+
 export const getInvoiceFormIsEditing = createSelector(
 	getInvoiceFormState,
 	({ isEditing }) => isEditing

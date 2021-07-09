@@ -73,13 +73,16 @@ function InvoiceDetail({ invoice, history }) {
 					<p>Status</p>
 					<Badge status={status} />
 				</Status>
+
 				<Columns>
 					<button onClick={handleEditInvoice} className="btn btn--gray">
 						Edit
 					</button>
+
 					<button onClick={handleDeleteInvoice} className="btn btn--red">
 						Delete
 					</button>
+
 					{status === 'pending' && (
 						<button onClick={handleMarkAsPaid} className="btn">
 							Mark as paid

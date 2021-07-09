@@ -28,19 +28,15 @@ const SelectEl = styled.select`
 
 export function Textbox(props) {
 	const [fields, meta] = useField(props);
-	const { name, label, ...otherprops } = props;
+	const { name, ...otherprops } = props;
 
 	return (
-		<div className="form__control">
-			<label className="form__label">{label}</label>
-			<TextboxEl
-				isInvalid={meta.touched && !!meta.error}
-				className="form__input"
-				{...fields}
-				{...otherprops}
-			></TextboxEl>
-			<p className={`message--error`}>{(meta.touched && meta.error) || <br />}</p>
-		</div>
+		<TextboxEl
+			isInvalid={meta.touched && !!meta.error}
+			className="form__input"
+			{...fields}
+			{...otherprops}
+		></TextboxEl>
 	);
 }
 
@@ -50,15 +46,15 @@ export function CheckBox(props) {
 
 	return (
 		<>
-			<label className="form__label">{label}</label>
 			<CheckboxEl type="checkbox" {...fields} {...otherprops}></CheckboxEl>
+			<label className="form__label">{label}</label>
 		</>
 	);
 }
 
 export function Select(props) {
 	const [fields] = useField({ ...props });
-	const { name, label, ...otherprops } = props;
+	const { name, ...otherprops } = props;
 
 	return <SelectEl {...fields} {...otherprops}></SelectEl>;
 }

@@ -43,6 +43,7 @@ const Button = styled.button`
 function Header() {
 	const dispatch = useDispatch();
 	const total = useSelector(getInvoicesTotal);
+
 	function handleAddNewInvoice() {
 		dispatch(toggleExpanded());
 	}
