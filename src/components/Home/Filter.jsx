@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { getInvoicesFilter, setInvoicesFilter } from '../../redux/invoicesSlice';
-import arrowIconPath from '../../assets/images/icon-arrow-right.svg';
 import checkIconPath from '../../assets/images/icon-check.svg';
+import { ArrowRight } from '../../assets/CustomSvgs';
 
 const Container = styled.div`
 	position: relative;
@@ -23,8 +23,11 @@ const ToggleLabel = styled.h3`
 	line-height: 0;
 `;
 
-const ArrowIcon = styled.img`
+const ArrowIcon = styled(ArrowRight)`
 	transition: 0.3s;
+	transform-origin: center;
+	display: grid;
+	place-content: center;
 
 	${({ rotated }) =>
 		rotated &&
@@ -124,7 +127,7 @@ function Filter() {
 		<Container>
 			<Toggle onClick={handleToggleExpanded}>
 				<ToggleLabel className="bold">Filter by status</ToggleLabel>
-				<ArrowIcon src={arrowIconPath} alt="" rotated={!expanded} />
+				<ArrowIcon rotated={!expanded} />
 			</Toggle>
 
 			<OptionsContainer hidden={!expanded}>{OptionsList}</OptionsContainer>

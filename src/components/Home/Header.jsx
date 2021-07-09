@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { getInvoicesTotal } from '../../redux/invoicesSlice';
 import Filter from './Filter';
-import plusIconPath from '../../assets/images/icon-plus.svg';
+import { PlusIcon } from '../../assets/CustomSvgs';
 
 const Container = styled.div`
 	display: grid;
@@ -17,7 +17,7 @@ const Container = styled.div`
 	}
 `;
 
-const Icon = styled.div`
+const IconContainer = styled.div`
 	background: #fff;
 	border-radius: 100%;
 	display: inline-block;
@@ -43,16 +43,16 @@ function Header() {
 	const total = useSelector(getInvoicesTotal);
 
 	return (
-		<Container className="container">
+		<Container>
 			<div>
 				<h1>Invoices</h1>
 				<p>There are {total} total invoices</p>
 			</div>
 			<Filter />
 			<Button className="btn">
-				<Icon>
-					<img src={plusIconPath} alt="" />
-				</Icon>{' '}
+				<IconContainer>
+					<PlusIcon />
+				</IconContainer>
 				New invoice
 			</Button>
 		</Container>

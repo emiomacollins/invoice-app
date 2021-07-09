@@ -13,7 +13,7 @@ function InvoiceList() {
 	const invoices = useSelector(getFilteredInvoices);
 
 	return (
-		<Container className="container">
+		<Container>
 			{invoices.map((invoice) => (
 				<Invoice key={invoice.id} invoice={invoice} />
 			))}

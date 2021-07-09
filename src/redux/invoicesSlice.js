@@ -34,7 +34,8 @@ const invoicesReducer = invoicesSlice.reducer;
 export default invoicesReducer;
 
 // ACTIONS
-export const { setInvoicesFilter } = invoicesSlice.actions;
+export const { setInvoicesFilter, deleteInvoice, updateInvoice, addInvoice } =
+	invoicesSlice.actions;
 
 // SELECTORS
 const getInvoicesState = (store) => store.invoices;

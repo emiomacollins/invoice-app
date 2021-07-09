@@ -8,6 +8,15 @@
     width: 88%;
 }
 
+.page {
+    padding: calc(var(--nav-height) * 1.5) 0;
+
+    @media (min-width: 800px) {
+        /* top right bottom left */
+        padding: calc(var(--nav-height) - 4rem) 0 calc(var(--nav-height) - 4rem) var(--nav-width);
+    }
+}
+
 .block {
     padding: 6rem 0
 }
@@ -30,6 +39,23 @@
 
     &:hover {
         background: var(--color-purple-light);
+    }
+
+    &--red {
+        background: var(--color-red);
+
+        &:hover {
+            background: var(--color-red-light);
+        }
+    }
+
+    &--gray {
+        background: var(--color-gray-transparent);
+        color: var(--color-text);
+
+        &:hover {
+            background: var(--color-gray-light);
+        }
     }
 }
 
