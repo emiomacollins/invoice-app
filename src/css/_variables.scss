@@ -4,6 +4,7 @@
     --color-dark: #141625;
     --color-mid: #1E2139;
 
+    --color-text: #859ACD;
 
     --color-black: #0C0E16;
     --color-white: #fff;
@@ -15,9 +16,10 @@
     --color-orange-transparent: hsla(34, 100%, 50%, 0.5);
 
     --color-gray: #DFE3FA;
-    --color-gray-transparent: hsla(240, 9%, 96%, 0.2);
+    --color-gray-transparent: rgba(55, 59, 83, 0.06);
 
     --color-purple: #7C5DFA;
+    --color-purple-light: rgb(146, 119, 255);
     --color-purple-faded: #7E88C3;
 
     --color-red: #EC5757;
@@ -47,6 +49,8 @@
     --color-mid: #fff;
 
     --color-gray: #373B53;
+    --color-gray-transparent: rgba(55, 59, 83, 0.06);
+
     --color-green: #33D69F;
     --color-purple: #7C5DFA;
     --color-orange: #FF8F00;

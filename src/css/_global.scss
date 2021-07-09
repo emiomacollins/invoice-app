@@ -55,19 +55,20 @@ h3 {
 }
 
 h1 {
-    font-size: var(--size-700);
-}
-
-h2 {
     font-size: var(--size-600);
 }
 
-h3 {
+h2 {
     font-size: var(--size-500);
+}
+
+h3 {
+    font-size: var(--size-400);
 }
 
 p {
     line-height: 1.4;
+    color: var(--color-text);
 }
 
 ul {

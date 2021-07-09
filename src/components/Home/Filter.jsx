@@ -7,18 +7,20 @@ import checkIconPath from '../../assets/images/icon-check.svg';
 
 const Container = styled.div`
 	position: relative;
+	justify-self: right;
 `;
 
 const Toggle = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 1rem;
-	padding-bottom: 1rem;
+	padding: 2rem 0;
 	cursor: pointer;
 `;
 
-const ToggleLabel = styled.p`
+const ToggleLabel = styled.h3`
 	letter-spacing: 0.04em;
+	line-height: 0;
 `;
 
 const ArrowIcon = styled.img`
@@ -68,7 +70,7 @@ const Radio = styled.input`
 `;
 
 const OptionsContainer = styled.div`
-	padding: 2rem;
+	padding: 2.5rem;
 	position: absolute;
 	top: 100%;
 	right: 0;
@@ -86,7 +88,7 @@ const OptionsContainer = styled.div`
 
 function Filter() {
 	const dispatch = useDispatch();
-	const [expanded, setExpanded] = useState(true);
+	const [expanded, setExpanded] = useState(false);
 	const invoiceFilter = useSelector(getInvoicesFilter);
 
 	function handleToggleExpanded() {
