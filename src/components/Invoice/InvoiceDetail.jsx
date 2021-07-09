@@ -21,6 +21,7 @@ import {
 	Status,
 	Title,
 } from './invoiceDetailStyles';
+import { setIsEditing, toggleExpanded } from '../../redux/invoiceFormSlice';
 
 function InvoiceDetail({ invoice, history }) {
 	const dispatch = useDispatch();
@@ -49,6 +50,11 @@ function InvoiceDetail({ invoice, history }) {
 		dispatch(updateInvoice({ ...invoice, status: 'paid' }));
 	}
 
+	function handleEditInvoice() {
+		dispatch(setIsEditing(invoice));
+		dispatch(toggleExpanded());
+	}
+
 	const itemsList = items.map(({ name, quantity, price, total }, idx) => {
 		return (
 			<BillRow key={idx}>
@@ -68,7 +74,9 @@ function InvoiceDetail({ invoice, history }) {
 					<Badge status={status} />
 				</Status>
 				<Columns>
-					<button className="btn btn--gray">Edit</button>
+					<button onClick={handleEditInvoice} className="btn btn--gray">
+						Edit
+					</button>
 					<button onClick={handleDeleteInvoice} className="btn btn--red">
 						Delete
 					</button>

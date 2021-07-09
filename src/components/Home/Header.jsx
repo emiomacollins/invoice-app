@@ -1,9 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { getInvoicesTotal } from '../../redux/invoicesSlice';
 import Filter from './Filter';
 import { PlusIcon } from '../../assets/CustomSvgs';
+import { toggleExpanded } from '../../redux/invoiceFormSlice';
 
 const Container = styled.div`
 	display: grid;
@@ -40,7 +41,11 @@ const Button = styled.button`
 `;
 
 function Header() {
+	const dispatch = useDispatch();
 	const total = useSelector(getInvoicesTotal);
+	function handleAddNewInvoice() {
+		dispatch(toggleExpanded());
+	}
 
 	return (
 		<Container>
@@ -49,7 +54,7 @@ function Header() {
 				<p>There are {total} total invoices</p>
 			</div>
 			<Filter />
-			<Button className="btn">
+			<Button onClick={handleAddNewInvoice} className="btn">
 				<IconContainer>
 					<PlusIcon />
 				</IconContainer>

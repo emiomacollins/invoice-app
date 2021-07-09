@@ -1,8 +1,8 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
-import InvoiceForm from '../components/Home/InvoiceForm';
 
 const initialState = {
 	expanded: false,
+	isEditing: null,
 };
 
 const invoiceFormSlice = createSlice({
@@ -12,6 +12,9 @@ const invoiceFormSlice = createSlice({
 		toggleExpanded(state) {
 			state.expanded = !state.expanded;
 		},
+		setIsEditing(state, { payload: obj }) {
+			state.isEditing = obj;
+		},
 	},
 });
 
@@ -19,11 +22,15 @@ const invoiceFormReducer = invoiceFormSlice.reducer;
 export default invoiceFormReducer;
 
 // ACTIONS
-export const { toggleExpanded } = invoiceFormSlice.actions;
+export const { toggleExpanded, setIsEditing } = invoiceFormSlice.actions;
 
 // SELECTORS
-const getInvoiceFormState = createSelector(({ invoiceForm }) => InvoiceForm);
+const getInvoiceFormState = (store) => store.invoiceForm;
 export const getInvoiceFormExpanded = createSelector(
 	getInvoiceFormState,
 	({ expanded }) => expanded
+);
+export const getInvoiceFormIsEditing = createSelector(
+	getInvoiceFormState,
+	({ isEditing }) => isEditing
 );

@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
@@ -5,8 +6,9 @@ import styled from 'styled-components';
 import { ArrowLeft } from '../../assets/CustomSvgs';
 import InvoiceDetail from '../../components/Invoice/InvoiceDetail';
 import { getInvoices } from '../../redux/invoicesSlice';
+import { opacityAnimations } from '../Home/Home';
 
-const Container = styled.div`
+const Container = styled(motion.div)`
 	display: grid;
 	gap: 4rem;
 `;
@@ -26,7 +28,12 @@ function InvoicePage({ match }) {
 
 	return (
 		<div className="page">
-			<Container className="container">
+			<Container
+				variants={opacityAnimations}
+				initial="hide"
+				animate="show"
+				className="container"
+			>
 				<BackBtn to="/" className="btn">
 					<ArrowLeft stroke="#fff" />
 					Go back

@@ -17,6 +17,7 @@
 :root {
     font-size: 50%;
     scroll-behavior: smooth;
+    overflow-x: hidden;
 
     @media (min-width:465px) {
         font-size: 62.5%;
