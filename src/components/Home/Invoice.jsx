@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { formatDate, formatNumber } from '../../Helpers/Util';
+import Badge from '../reusables/StyledComponents/Badge';
 
 const Container = styled.div`
 	display: grid;
@@ -12,9 +13,13 @@ const Container = styled.div`
 	border-radius: var(--border-radius);
 `;
 
+const Name = styled.p`
+	justify-self: right;
+`;
+
 function Invoice({ invoice }) {
 	console.log(invoice);
-	const { id, clientName, paymentDue, total } = invoice;
+	const { id, clientName, paymentDue, total, status } = invoice;
 
 	return (
 		<Container>
@@ -23,12 +28,14 @@ function Invoice({ invoice }) {
 				{id}
 			</h3>
 
-			<p>{clientName}</p>
+			<Name>{clientName}</Name>
 
 			<div className="rows">
 				<p>Due {formatDate(paymentDue)}</p>
 				<h3>£{formatNumber(total)}</h3>
 			</div>
+
+			<Badge status={status} />
 		</Container>
 	);
 }
