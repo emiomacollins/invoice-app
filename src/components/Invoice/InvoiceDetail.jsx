@@ -1,10 +1,9 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { ArrowLeft } from '../../assets/CustomSvgs';
 import Badge from '../../components/reusables/StyledComponents/Badge';
-import { deleteInvoice, getInvoices } from '../../redux/invoicesSlice';
+import { deleteInvoice } from '../../redux/invoicesSlice';
 
 const Card = css`
 	box-shadow: var(--shadow);

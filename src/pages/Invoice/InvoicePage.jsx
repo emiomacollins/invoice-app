@@ -1,11 +1,10 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { ArrowLeft } from '../../assets/CustomSvgs';
 import InvoiceDetail from '../../components/Invoice/InvoiceDetail';
-import Badge from '../../components/reusables/StyledComponents/Badge';
-import { deleteInvoice, getInvoices } from '../../redux/invoicesSlice';
+import { getInvoices } from '../../redux/invoicesSlice';
 
 const Container = styled.div`
 	display: grid;
