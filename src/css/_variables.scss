@@ -20,11 +20,14 @@
 
     --color-purple: #7C5DFA;
     --color-purple-light: rgb(146, 119, 255);
-    --color-purple-faded: #7E88C3;
 
+    --color-accent: #7E88C3;
     --color-red: #EC5757;
 
-    --shadow: 0px 0px 40px rgba(39, 71, 78, 0.1);
+    --shadow: 0px 0px 5px hsla(228, 29%, 7%, 0.05);
+    --shadow-hard: 0px 0px 10px 10px hsla(228, 29%, 7%, 0.1);
+    --shadow-bottom: 0px 10px 10px hsla(228, 29%, 7%, 0.1);
+
     --border-radius: 1rem;
 
     --nav-width: 10rem;
@@ -50,6 +53,9 @@
 
     --color-gray: #373B53;
     --color-gray-transparent: rgba(55, 59, 83, 0.06);
+
+    --shadow-hard: 0px 0px 10px 10px hsla(228, 29%, 7%, 0.02);
+
 
     --color-green: #33D69F;
     --color-purple: #7C5DFA;

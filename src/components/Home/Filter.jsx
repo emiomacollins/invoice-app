@@ -76,7 +76,7 @@ const OptionsContainer = styled.div`
 	right: 0;
 	background: var(--color-mid);
 	border-radius: var(--border-radius);
-	box-shadow: var(--box-shadow);
+	box-shadow: var(--shadow-hard);
 
 	${({ hidden }) =>
 		hidden &&

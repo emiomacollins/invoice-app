@@ -15,6 +15,8 @@ const Container = styled.div`
 	grid-template-columns: 1fr auto auto;
 	justify-items: left;
 	align-items: center;
+	z-index: 99;
+	box-shadow: var(--shadow-bottom);
 
 	.lightmode & {
 		background: var(--color-gray);
@@ -67,15 +69,19 @@ const ProfileContainer = styled.div`
 const ProfilePicture = styled.img`
 	height: 4rem;
 	width: 4rem;
-	border: 2px solid var(--color-gray-transparent);
+	border: 2px solid var(--color-purple);
 	object-fit: cover;
 	border-radius: 100%;
-	cursor: pointer;
+	/* cursor: pointer; */
 	transition: 0.3s;
 
-	&:hover {
-		border-color: var(--color-purple);
+	.lightmode & {
+		border-color: var(--color-text);
 	}
+
+	/* &:hover {
+		border-color: var(--color-purple);
+	} */
 `;
 
 function Nav() {

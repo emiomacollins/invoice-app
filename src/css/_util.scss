@@ -32,3 +32,12 @@
         background: var(--color-purple-light);
     }
 }
+
+.accent {
+    color: var(--color-accent);
+}
+
+.rows {
+    display: grid;
+    gap: 1rem;
+}
