@@ -114,7 +114,7 @@ export const Bill = styled.div`
 	padding: 0;
 	overflow: hidden;
 	grid-column: 1/-1;
-	box-shadow: var(--shadow);
+	box-shadow: none;
 	background: var(--color-light);
 `;
 
@@ -167,6 +167,7 @@ export const BillTotal = styled.div`
 	background: var(--color-black);
 	grid-template-columns: 1fr;
 	gap: 1rem;
+	color: #fff;
 
 	@media (min-width: 500px) {
 		grid-template-columns: auto 1fr;

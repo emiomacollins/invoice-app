@@ -49,7 +49,7 @@ const Option = styled.div`
 	}
 `;
 
-const Radio = styled.input`
+const CheckBox = styled.input`
 	appearance: none;
 	background: var(--color-dark);
 	width: 2.3rem;
@@ -111,12 +111,13 @@ function Filter() {
 	const OptionsList = ['paid', 'pending', 'draft'].map((filter) => {
 		return (
 			<Option key={filter}>
-				<Radio
-					onClick={handleSetFilter}
-					type="radio"
+				<CheckBox
+					onChange={handleSetFilter}
+					type="checkbox"
 					id={filter}
 					name="filter"
 					value={filter}
+					checked={invoiceFilter === filter ? true : false}
 				/>
 				<label htmlFor={filter}>{filter}</label>
 			</Option>

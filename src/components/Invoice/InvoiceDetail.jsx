@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Badge from '../reusables/Badge';
-import { deleteInvoice } from '../../redux/invoicesSlice';
+import { deleteInvoice, updateInvoice } from '../../redux/invoicesSlice';
 import { formatDate, formatNumber } from '../../Helpers/Util';
 import {
 	Address,
@@ -45,6 +45,10 @@ function InvoiceDetail({ invoice, history }) {
 		history.push('/');
 	}
 
+	function handleMarkAsPaid() {
+		dispatch(updateInvoice({ ...invoice, status: 'paid' }));
+	}
+
 	const itemsList = items.map(({ name, quantity, price, total }, idx) => {
 		return (
 			<BillRow key={idx}>
@@ -68,7 +72,11 @@ function InvoiceDetail({ invoice, history }) {
 					<button onClick={handleDeleteInvoice} className="btn btn--red">
 						Delete
 					</button>
-					<button className="btn">Mark as paid</button>
+					{status === 'pending' && (
+						<button onClick={handleMarkAsPaid} className="btn">
+							Mark as paid
+						</button>
+					)}
 				</Columns>
 			</Controls>
 
