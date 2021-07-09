@@ -3,14 +3,14 @@ import React from 'react';
 
 const Container = styled.div`
 	justify-self: right;
-	min-width: 10rem;
+	min-width: 14rem;
 	border-radius: var(--border-radius);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	gap: 1rem;
 	font-weight: 700;
-	padding: 0 2rem;
+	padding: 2rem 2rem;
 
 	${({ status }) => {
 		switch (status) {
