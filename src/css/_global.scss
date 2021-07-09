@@ -11,12 +11,16 @@
     padding: 0;
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
-    transition: background.2s, color.2s;
+    transition: background.2s;
 }
 
 :root {
-    font-size: 62.5%;
+    font-size: 50%;
     scroll-behavior: smooth;
+
+    @media (min-width:450px) {
+        font-size: 62.5%;
+    }
 }
 
 ::-webkit-scrollbar {

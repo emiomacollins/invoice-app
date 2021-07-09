@@ -23,6 +23,10 @@ const invoicesSlice = createSlice({
 		deleteInvoice: (state, { payload: id }) => {
 			state.invoices = state.invoices.filter((invoice) => invoice.id !== id);
 		},
+
+		setInvoicesFilter: (state, { payload: filter }) => {
+			state.filter = filter;
+		},
 	},
 });
 
@@ -30,6 +34,7 @@ const invoicesReducer = invoicesSlice.reducer;
 export default invoicesReducer;
 
 // ACTIONS
+export const { setInvoicesFilter } = invoicesSlice.actions;
 
 // SELECTORS
 const getInvoicesState = (store) => store.invoices;
@@ -37,13 +42,13 @@ const getInvoicesState = (store) => store.invoices;
 export const getInvoices = createSelector(getInvoicesState, ({ invoices }) => invoices);
 export const getInvoicesFilter = createSelector(getInvoicesState, ({ filter }) => filter);
 
-export const getInvoicesTotal = createSelector(
-	getInvoicesState,
-	({ invoices }) => invoices.length
-);
-
 export const getFilteredInvoices = createSelector(
 	getInvoicesState,
 	({ invoices, filter }) =>
 		invoices.filter((invoice) => invoice.status.includes(filter))
+);
+
+export const getInvoicesTotal = createSelector(
+	getFilteredInvoices,
+	(invoices) => invoices.length
 );

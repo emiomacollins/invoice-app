@@ -39,6 +39,7 @@ const LogoContainer = styled.div`
 	display: grid;
 	place-content: center;
 	border-bottom-right-radius: 2rem;
+	border-top-right-radius: 2rem;
 
 	@media (min-width: 800px) {
 		height: var(--nav-width);
