@@ -15,20 +15,6 @@ export function ArrowLeft(props) {
 	);
 }
 
-export function ArrowRight({ rotated, ...props }) {
-	return (
-		<svg width="1rem" height="1rem" xmlns="http://www.w3.org/2000/svg" {...props}>
-			<path
-				d="M1 1l4 4-4 4"
-				stroke="#7C5DFA"
-				strokeWidth="2"
-				fill="none"
-				fillRule="evenodd"
-			/>
-		</svg>
-	);
-}
-
 export function PlusIcon(props) {
 	return (
 		<svg width="11" height="11" xmlns="http://www.w3.org/2000/svg">

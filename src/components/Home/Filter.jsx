@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { getInvoicesFilter, setInvoicesFilter } from '../../redux/invoicesSlice';
 import checkIconPath from '../../assets/images/icon-check.svg';
-import { ArrowRight } from '../../assets/CustomSvgs';
+import ArrowIconPath from '../../assets/images/icon-arrow-right.svg';
 
 const Container = styled.div`
 	position: relative;
@@ -23,7 +23,7 @@ const ToggleLabel = styled.h3`
 	line-height: 0;
 `;
 
-const ArrowIcon = styled(ArrowRight)`
+const ArrowIcon = styled.img`
 	transition: 0.3s;
 	transform-origin: center;
 	display: grid;
@@ -58,6 +58,7 @@ const CheckBox = styled.input`
 	transition: 0s, border 0.2s;
 	cursor: pointer;
 	border: 2px solid transparent;
+	outline: none;
 
 	&:hover {
 		border-color: var(--color-purple);
@@ -128,7 +129,7 @@ function Filter() {
 		<Container>
 			<Toggle onClick={handleToggleExpanded}>
 				<ToggleLabel className="bold">Filter by status</ToggleLabel>
-				<ArrowIcon rotated={!expanded} />
+				<ArrowIcon src={ArrowIconPath} rotated={!expanded} />
 			</Toggle>
 
 			<OptionsContainer hidden={!expanded}>{OptionsList}</OptionsContainer>
