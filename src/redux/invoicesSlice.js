@@ -46,7 +46,7 @@ export const getInvoicesFilter = createSelector(getInvoicesState, ({ filter }) =
 export const getFilteredInvoices = createSelector(
 	getInvoicesState,
 	({ invoices, filter }) =>
-		invoices.filter((invoice) => invoice.status.includes(filter))
+		invoices.filter((invoice) => invoice.status.includes(filter)).reverse()
 );
 
 export const getInvoicesTotal = createSelector(

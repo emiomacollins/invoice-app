@@ -93,7 +93,7 @@ export const BillTo = styled.div`
 		text-align: right;
 	}
 
-	@media (min-width: 900px) {
+	@media (min-width: 1000px) {
 		justify-self: center;
 		text-align: left;
 	}

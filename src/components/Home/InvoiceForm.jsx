@@ -13,6 +13,8 @@ import * as yup from 'yup';
 import shortid from 'shortid';
 import { addInvoice } from '../../redux/invoicesSlice';
 import { DatePicker, Select, Textbox } from '../reusables/FormElements';
+import deleteIconPath from '../../assets/images/icon-delete.svg';
+import { dateToString } from '../../Helpers/Util';
 
 const Body = styled.div`
 	position: fixed;
@@ -43,7 +45,7 @@ const FormContainer = styled(motion.div)`
 	background: var(--color-dark);
 	border-top-right-radius: 2rem;
 	border-bottom-right-radius: 2rem;
-	padding: 8rem 3rem 2rem 5rem;
+	padding: 7rem 3rem 2rem 5rem;
 
 	@media (min-width: 800px) {
 		height: 100vh;
@@ -56,7 +58,7 @@ const Overlay = styled.div`
 
 const FormElement = styled(Form)`
 	display: grid;
-	gap: 3rem;
+	gap: 4rem;
 	overflow-y: scroll;
 	overflow-x: hidden;
 
@@ -118,6 +120,55 @@ const FormControls = styled.div`
 	}
 `;
 
+const ItemList = styled.div`
+	display: grid;
+	gap: 5rem;
+
+	@media (min-width: 900px) {
+		gap: 3rem;
+	}
+`;
+
+const Item = styled.div`
+	display: grid;
+	gap: 2rem;
+	grid-template-columns: 7rem 1fr 1.2fr auto;
+	align-items: center;
+
+	@media (min-width: 900px) {
+		grid-template-columns: 2fr 7rem 1fr 1.2fr auto;
+		&:not(:first-of-type) label {
+			display: none;
+		}
+	}
+`;
+
+const DeleteIcon = styled.img`
+	margin-top: 2rem;
+	cursor: pointer;
+
+	&:hover {
+		opacity: 0.7;
+	}
+
+	@media (min-width: 800px) {
+		margin-top: 0;
+		${({ isFirst }) =>
+			isFirst &&
+			css`
+				margin-top: 2rem;
+			`}
+	}
+`;
+
+const ItemName = styled(Textbox)`
+	grid-column: 1/-1;
+
+	@media (min-width: 900px) {
+		grid-column: unset;
+	}
+`;
+
 function InvoiceForm() {
 	const expanded = useSelector(getInvoiceFormExpanded);
 	const isEditing = useSelector(getInvoiceFormIsEditing);
@@ -141,11 +192,10 @@ function InvoiceForm() {
 		items: [
 			{
 				name: '',
-				price: 0,
-				quantity: 1,
+				price: '',
+				quantity: '',
 			},
 		],
-		// paymentDue: '2021-08-19',
 		paymentDue: new Date(),
 		paymentTerms: 1,
 		senderAddress: {
@@ -187,7 +237,7 @@ function InvoiceForm() {
 		}),
 	});
 
-	function onSubmit(values, { resetForm }) {
+	function onSubmit(values) {
 		const {
 			clientAddress,
 			clientEmail,
@@ -203,11 +253,11 @@ function InvoiceForm() {
 			clientAddress,
 			clientEmail,
 			clientName,
-			createdAt: new Date(),
+			createdAt: dateToString(new Date()),
 			description,
 			id: shortid.generate(),
 			items,
-			paymentDue: new Date(paymentDue),
+			paymentDue: dateToString(paymentDue),
 			paymentTerms,
 			senderAddress,
 			status: 'pending',
@@ -216,9 +266,12 @@ function InvoiceForm() {
 			}, 0),
 		};
 
+		// console.log(invoice);
 		dispatch(addInvoice(invoice));
-		resetForm();
+		handleCloseForm();
 	}
+
+	function handleSaveAsDraft() {}
 
 	return (
 		<AnimatePresence>
@@ -232,70 +285,164 @@ function InvoiceForm() {
 						transition={{ duration: 0.3 }}
 					>
 						<h2>{isEditing ? 'Edit' : 'Create'} Invoice</h2>
+
 						<Formik
 							initialValues={initialValues}
 							validationSchema={validationSchema}
+							// validate={() => {}}
 							onSubmit={onSubmit}
 						>
-							<FormElement>
-								<BillFrom>
-									<FormSectionHeading>Bill From</FormSectionHeading>
-									<Textbox
-										label="street address"
-										name="senderAddress.street"
-									/>
-									<Columns>
-										<Textbox label="City" name="senderAddress.city" />
+							{({ values, setFieldValue }) => (
+								<FormElement id="formik">
+									<BillFrom>
+										<FormSectionHeading>Bill From</FormSectionHeading>
 										<Textbox
-											label="post code"
-											name="senderAddress.postCode"
+											label="street address"
+											name="senderAddress.street"
 										/>
-										<Textbox
-											label="country"
-											name="senderAddress.country"
-										/>
-									</Columns>
-								</BillFrom>
+										<Columns>
+											<Textbox
+												label="City"
+												name="senderAddress.city"
+											/>
+											<Textbox
+												label="post code"
+												name="senderAddress.postCode"
+											/>
+											<Textbox
+												label="country"
+												name="senderAddress.country"
+											/>
+										</Columns>
+									</BillFrom>
 
-								<BillTo>
-									<FormSectionHeading>Bill to</FormSectionHeading>
-									<Textbox label="client's name" name="clientName" />
-									<Textbox
-										label="client's email"
-										name="clientEmail"
-										placeholder="email@example.com"
-									/>
-									<Columns>
-										<Textbox label="City" name="clientAddress.city" />
+									<BillTo>
+										<FormSectionHeading>Bill to</FormSectionHeading>
 										<Textbox
-											label="post code"
-											name="clientAddress.postCode"
+											label="client's name"
+											name="clientName"
 										/>
 										<Textbox
-											label="country"
-											name="clientAddress.country"
+											label="client's email"
+											name="clientEmail"
+											placeholder="email@example.com"
 										/>
-									</Columns>
-									<Columns>
-										<DatePicker
-											name="paymentDue"
-											label="Payment Due"
+										<Textbox
+											label="street address"
+											name="clientAddress.street"
 										/>
+										<Columns>
+											<Textbox
+												label="City"
+												name="clientAddress.city"
+											/>
+											<Textbox
+												label="post code"
+												name="clientAddress.postCode"
+											/>
+											<Textbox
+												label="country"
+												name="clientAddress.country"
+											/>
+										</Columns>
+										<Columns>
+											<DatePicker
+												name="paymentDue"
+												label="Payment Due"
+											/>
 
-										<Select label="Payment Terms" name="PaymentTerms">
-											<option value="1">Next Day</option>
-											<option value="7">Next 7 Days</option>
-											<option value="14">Next 14 Days</option>
-											<option value="30">Next 30 Days</option>
-										</Select>
-									</Columns>
-								</BillTo>
-							</FormElement>
+											<Select
+												label="Payment Terms"
+												name="PaymentTerms"
+											>
+												<option value="1">Next Day</option>
+												<option value="7">Next 7 Days</option>
+												<option value="14">Next 14 Days</option>
+												<option value="30">Next 30 Days</option>
+											</Select>
+										</Columns>
+										<Textbox
+											label="Description"
+											name="description"
+											placeholder="e.g Graphic Design Services"
+										/>
+									</BillTo>
+
+									<h3>Item List</h3>
+									<ItemList>
+										{values.items.map((item, i) => {
+											return (
+												<Item key={i}>
+													<ItemName
+														name={`items[${i}].name`}
+														label="ItemName"
+													/>
+													<Textbox
+														name={`items[${i}].quantity`}
+														label="Quantity"
+													/>
+													<Textbox
+														name={`items[${i}].price`}
+														label="Price"
+													/>
+													<Textbox
+														name={`items[${i}].total`}
+														label="Total"
+														disabled={true}
+														value={
+															'£' +
+															item.price * +item.quantity
+														}
+													/>
+													<DeleteIcon
+														onClick={() => {
+															setFieldValue(
+																'items',
+																values.items.filter(
+																	(item, index) =>
+																		index !== i
+																)
+															);
+														}}
+														isFirst={i === 0}
+														src={deleteIconPath}
+														alt=""
+													/>
+												</Item>
+											);
+										})}
+
+										<button
+											onClick={() => {
+												setFieldValue('items', [
+													...values.items,
+													{
+														name: '',
+														price: '',
+														quantity: '',
+													},
+												]);
+											}}
+											type="button"
+											className="btn"
+										>
+											Add Item
+										</button>
+									</ItemList>
+								</FormElement>
+							)}
 						</Formik>
+
 						<FormControls>
-							<button className="btn btn--red">Discard</button>
-							<button className="btn btn--gray">Save as Draft</button>
-							<button className="btn">Save & Send</button>
+							<button onClick={handleCloseForm} className="btn btn--red">
+								Discard
+							</button>
+							<button onClick={handleSaveAsDraft} className="btn btn--gray">
+								Save as Draft
+							</button>
+							<button form="formik" className="btn" type="submit">
+								Save & Send
+							</button>
 						</FormControls>
 					</FormContainer>
 					<Overlay onClick={handleCloseForm} />

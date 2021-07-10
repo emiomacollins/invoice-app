@@ -22,7 +22,7 @@ const Container = styled.div`
 		border-color: var(--color-purple);
 	}
 
-	@media (min-width: 900px) {
+	@media (min-width: 1000px) {
 		grid-template-columns: repeat(2, auto) 1fr auto auto;
 		align-items: center;
 	}
@@ -51,7 +51,7 @@ function Invoice({ invoice }) {
 	return (
 		<Link to={`/invoice/${id}`}>
 			<Container>
-				<h3>
+				<h3 className="capitalize">
 					<span className="accent">#</span>
 					{id}
 				</h3>

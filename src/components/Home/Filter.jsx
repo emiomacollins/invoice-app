@@ -131,7 +131,6 @@ function Filter() {
 				<ToggleLabel className="bold">Filter by status</ToggleLabel>
 				<ArrowIcon src={ArrowIconPath} rotated={!expanded} />
 			</Toggle>
-
 			<OptionsContainer hidden={!expanded}>{OptionsList}</OptionsContainer>
 		</Container>
 	);

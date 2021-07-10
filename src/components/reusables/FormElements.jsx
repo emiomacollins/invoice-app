@@ -60,12 +60,14 @@ const Label = styled.label`
 const SelectEl = styled.select`
 	${FormBox}
 	box-shadow: none;
+	color: var(--color-white);
 `;
 
 const Button = styled.button`
 	${FormBox}
 	width: 100%;
 	position: relative;
+	color: var(--color-white);
 `;
 
 const DatePickerIcon = styled.img`
@@ -76,13 +78,13 @@ const DatePickerIcon = styled.img`
 	pointer-events: none;
 `;
 
-export function Textbox(props) {
+export function Textbox({ className, ...props }) {
 	const [fields, meta] = useField(props);
 	const { name, label, ...otherprops } = props;
 
 	return (
-		<FormControl>
-			<Label htmlFor="name">{label}</Label>
+		<FormControl className={className}>
+			{label && <Label htmlFor="name">{label}</Label>}
 			<TextboxEl
 				isInvalid={meta.touched && meta.error}
 				id={name}
