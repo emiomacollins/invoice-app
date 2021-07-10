@@ -23,7 +23,7 @@ const Container = styled.div`
 	}
 
 	@media (min-width: 1000px) {
-		grid-template-columns: repeat(2, auto) 1fr auto auto;
+		grid-template-columns: 11rem 15rem 1fr auto auto;
 		align-items: center;
 	}
 `;
@@ -39,10 +39,17 @@ const Row = styled.div`
 `;
 
 const Name = styled.p`
-	justify-self: right;
-
 	@media (min-width: 800px) {
 	}
+`;
+
+const InvoiceId = styled.h3`
+	text-transform: capitalize;
+	font-size: var(--size-400);
+`;
+
+const Price = styled.h3`
+	font-size: var(--size-500);
 `;
 
 function Invoice({ invoice }) {
@@ -51,16 +58,16 @@ function Invoice({ invoice }) {
 	return (
 		<Link to={`/invoice/${id}`}>
 			<Container>
-				<h3 className="capitalize">
+				<InvoiceId>
 					<span className="accent">#</span>
 					{id}
-				</h3>
+				</InvoiceId>
 
 				<Name>{clientName}</Name>
 
 				<Row className="rows">
 					<p>Due {formatDate(paymentDue)}</p>
-					<h3>£{formatNumber(total)}</h3>
+					<Price>£{formatNumber(total)}</Price>
 				</Row>
 
 				<Badge status={status} />

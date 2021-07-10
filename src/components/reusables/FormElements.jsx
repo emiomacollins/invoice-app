@@ -109,7 +109,7 @@ export function Select(props) {
 
 const CustomInput = forwardRef(({ value, onClick }, ref) => (
 	<Button type="button" onClick={onClick} ref={ref}>
-		{formatDate(value)}
+		{formatDate(new Date(value))}
 		<DatePickerIcon src={calendarIconPath} alt="" />
 	</Button>
 ));

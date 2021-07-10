@@ -1,11 +1,15 @@
 export function formatDate(date) {
-	const formatter = new Intl.DateTimeFormat(navigator.language || 'eu', {
-		month: 'short',
-		year: 'numeric',
-		day: '2-digit',
-	});
-	const dateObj = new Date(date);
-	return formatter.format(dateObj);
+	try {
+		const formatter = new Intl.DateTimeFormat(navigator.language || 'eu', {
+			month: 'short',
+			year: 'numeric',
+			day: '2-digit',
+		});
+		const dateObj = new Date(date);
+		return formatter.format(dateObj);
+	} catch (error) {
+		console.log('couldnt parse date');
+	}
 }
 
 export function dateToString(date) {

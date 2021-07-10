@@ -40,6 +40,10 @@ const Button = styled.button`
 	}
 `;
 
+const Heading = styled.h1`
+	line-height: 0.1;
+`;
+
 function Header() {
 	const dispatch = useDispatch();
 	const total = useSelector(getInvoicesTotal);
@@ -51,7 +55,7 @@ function Header() {
 	return (
 		<Container>
 			<div>
-				<h1>Invoices</h1>
+				<Heading>Invoices</Heading>
 				<p>There are {total} total invoices</p>
 			</div>
 			<Filter />

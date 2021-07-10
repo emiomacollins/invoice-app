@@ -19,7 +19,7 @@ const Toggle = styled.div`
 `;
 
 const ToggleLabel = styled.h3`
-	letter-spacing: 0.04em;
+	letter-spacing: 0.02em;
 	line-height: 0;
 `;
 
@@ -128,7 +128,7 @@ function Filter() {
 	return (
 		<Container>
 			<Toggle onClick={handleToggleExpanded}>
-				<ToggleLabel className="bold">Filter by status</ToggleLabel>
+				<ToggleLabel className="bold">Filter</ToggleLabel>
 				<ArrowIcon src={ArrowIconPath} rotated={!expanded} />
 			</Toggle>
 			<OptionsContainer hidden={!expanded}>{OptionsList}</OptionsContainer>

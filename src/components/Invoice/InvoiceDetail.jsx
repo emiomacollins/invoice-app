@@ -25,7 +25,6 @@ import { setIsEditing, toggleExpanded } from '../../redux/invoiceFormSlice';
 
 function InvoiceDetail({ invoice, history }) {
 	const dispatch = useDispatch();
-	console.log(invoice);
 
 	const {
 		status,
