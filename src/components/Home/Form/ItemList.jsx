@@ -56,51 +56,52 @@ const ItemName = styled(Textbox)`
 function ItemList() {
 	const [fields, meta, helpers] = useField('items');
 
-	return (
-		<Container>
-			{meta.value.map((item, i) => {
-				return (
-					<Item key={i}>
-						<ItemName name={`items[${i}].name`} label="ItemName" />
-						<Textbox name={`items[${i}].quantity`} label="Quantity" />
-						<Textbox name={`items[${i}].price`} label="Price" />
-						<Textbox
-							name={`items[${i}].total`}
-							label="Total"
-							disabled={true}
-							value={'£' + item.price * +item.quantity}
-						/>
-						<DeleteIcon
-							onClick={() => {
-								helpers.setValue(
-									meta.value.filter((item, index) => index !== i)
-								);
-							}}
-							isFirst={i === 0}
-							src={deleteIconPath}
-							alt=""
-						/>
-					</Item>
-				);
-			})}
+	function handleAddItem() {
+		helpers.setValue([
+			...meta.value,
+			{
+				name: '',
+				price: '',
+				quantity: '',
+			},
+		]);
+	}
 
-			<button
-				onClick={() => {
-					helpers.setValue([
-						...meta.value,
-						{
-							name: '',
-							price: '',
-							quantity: '',
-						},
-					]);
-				}}
-				type="button"
-				className="btn"
-			>
-				Add Item
-			</button>
-		</Container>
+	function handleDeleteItem(index) {
+		helpers.setValue(meta.value.filter((item, i) => i !== index));
+	}
+
+	return (
+		<>
+			<h3>Item List</h3>
+			<Container>
+				{meta.value.map((item, i) => {
+					return (
+						<Item key={i}>
+							<ItemName name={`items[${i}].name`} label="ItemName" />
+							<Textbox name={`items[${i}].quantity`} label="Quantity" />
+							<Textbox name={`items[${i}].price`} label="Price" />
+							<Textbox
+								name={`items[${i}].total`}
+								label="Total"
+								disabled={true}
+								value={'£' + item.price * +item.quantity}
+							/>
+							<DeleteIcon
+								onClick={() => handleDeleteItem(i)}
+								isFirst={i === 0}
+								src={deleteIconPath}
+								alt=""
+							/>
+						</Item>
+					);
+				})}
+
+				<button onClick={handleAddItem} type="button" className="btn">
+					Add Item
+				</button>
+			</Container>
+		</>
 	);
 }
 

@@ -11,26 +11,16 @@ import {
 import * as yup from 'yup';
 import shortid from 'shortid';
 import { addInvoice, updateInvoice } from '../../../redux/invoicesSlice';
-import { DatePicker, Select, Textbox } from '../../reusables/FormElements';
 import { dateToString } from '../../../Helpers/Util';
 import { cloneDeep } from 'lodash';
-import {
-	BillFrom,
-	Body,
-	Columns,
-	FormContainer,
-	FormControls,
-	FormElement,
-	FormSectionHeading,
-	Overlay,
-	BillTo,
-} from './InvoiceFormStyles';
-import ItemList from './ItemList';
+import { Body, FormContainer, Overlay } from './InvoiceFormStyles';
+import InvoiceFormElement from './InvoiceFormElement';
+import { useState } from 'react';
 
 function InvoiceForm() {
 	const expanded = useSelector(getInvoiceFormExpanded);
 	const isEditing = useSelector(getInvoiceFormIsEditing);
-	let isDraft = false;
+	const [isDraft, setIsDraft] = useState(false);
 	const dispatch = useDispatch();
 
 	function handleCloseForm() {
@@ -66,7 +56,9 @@ function InvoiceForm() {
 		status: 'draft',
 	};
 
-	initialValues.paymentDue = new Date(initialValues.paymentDue);
+	if (isEditing) {
+		initialValues.paymentDue = new Date(initialValues.paymentDue);
+	}
 
 	const validationSchema = yup.object({
 		clientAddress: yup.object({
@@ -168,124 +160,11 @@ function InvoiceForm() {
 							// validate={() => {}}
 							onSubmit={onSubmit}
 						>
-							{({ values, setFieldValue }) => (
-								<>
-									<FormElement id="formik">
-										<BillFrom>
-											<FormSectionHeading>
-												Bill From
-											</FormSectionHeading>
-											<Textbox
-												label="street address"
-												name="senderAddress.street"
-											/>
-											<Columns>
-												<Textbox
-													label="City"
-													name="senderAddress.city"
-												/>
-												<Textbox
-													label="post code"
-													name="senderAddress.postCode"
-												/>
-												<Textbox
-													label="country"
-													name="senderAddress.country"
-												/>
-											</Columns>
-										</BillFrom>
-
-										<BillTo>
-											<FormSectionHeading>
-												Bill to
-											</FormSectionHeading>
-											<Textbox
-												label="client's name"
-												name="clientName"
-											/>
-											<Textbox
-												label="client's email"
-												name="clientEmail"
-												placeholder="email@example.com"
-											/>
-											<Textbox
-												label="street address"
-												name="clientAddress.street"
-											/>
-											<Columns>
-												<Textbox
-													label="City"
-													name="clientAddress.city"
-												/>
-												<Textbox
-													label="post code"
-													name="clientAddress.postCode"
-												/>
-												<Textbox
-													label="country"
-													name="clientAddress.country"
-												/>
-											</Columns>
-											<Columns>
-												<DatePicker
-													name="paymentDue"
-													label="Payment Due"
-												/>
-
-												<Select
-													label="Payment Terms"
-													name="PaymentTerms"
-												>
-													<option value="1">Next Day</option>
-													<option value="7">Next 7 Days</option>
-													<option value="14">
-														Next 14 Days
-													</option>
-													<option value="30">
-														Next 30 Days
-													</option>
-												</Select>
-											</Columns>
-											<Textbox
-												label="Description"
-												name="description"
-												placeholder="e.g Graphic Design Services"
-											/>
-										</BillTo>
-
-										<h3>Item List</h3>
-										<ItemList />
-									</FormElement>
-
-									<FormControls>
-										<button
-											onClick={handleCloseForm}
-											className="btn btn--red"
-										>
-											Discard
-										</button>
-
-										{initialValues.status === 'draft' && (
-											<button
-												onClick={() => {
-													isDraft = true;
-													onSubmit(values);
-												}}
-												className="btn btn--gray"
-											>
-												Save as Draft
-											</button>
-										)}
-										<button
-											form="formik"
-											className="btn"
-											type="submit"
-										>
-											{isEditing ? 'Save Changes' : 'Save as Draft'}
-										</button>
-									</FormControls>
-								</>
-							)}
+							<InvoiceFormElement
+								isDraft={isDraft}
+								setIsDraft={setIsDraft}
+								handleCloseForm={handleCloseForm}
+							/>
 						</Formik>
 					</FormContainer>
 					<Overlay onClick={handleCloseForm} />

@@ -5,7 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import Nav from './components/reusables/Nav';
 import InvoicePage from './pages/Invoice/InvoicePage';
-import InvoiceForm from './components/Home/Form/InvoiceForm';
+import InvoiceForm from './components/Home/Form/InvoiceFormContainer';
 
 function App() {
 	return (
