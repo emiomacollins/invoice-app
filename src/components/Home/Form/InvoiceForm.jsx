@@ -7,29 +7,25 @@ import {
 	getInvoiceFormIsEditing,
 	setIsEditing,
 	toggleExpanded,
-} from '../../redux/invoiceFormSlice';
+} from '../../../redux/invoiceFormSlice';
 import * as yup from 'yup';
 import shortid from 'shortid';
-import { addInvoice, updateInvoice } from '../../redux/invoicesSlice';
-import { DatePicker, Select, Textbox } from '../reusables/FormElements';
-import deleteIconPath from '../../assets/images/icon-delete.svg';
-import { dateToString } from '../../Helpers/Util';
+import { addInvoice, updateInvoice } from '../../../redux/invoicesSlice';
+import { DatePicker, Select, Textbox } from '../../reusables/FormElements';
+import { dateToString } from '../../../Helpers/Util';
 import { cloneDeep } from 'lodash';
 import {
 	BillFrom,
 	Body,
 	Columns,
-	DeleteIcon,
 	FormContainer,
 	FormControls,
 	FormElement,
 	FormSectionHeading,
-	Item,
-	ItemList,
-	ItemName,
 	Overlay,
+	BillTo,
 } from './InvoiceFormStyles';
-import { BillTo } from '../Invoice/invoiceDetailStyles';
+import ItemList from './ItemList';
 
 function InvoiceForm() {
 	const expanded = useSelector(getInvoiceFormExpanded);
@@ -258,67 +254,7 @@ function InvoiceForm() {
 										</BillTo>
 
 										<h3>Item List</h3>
-										<ItemList>
-											{values.items.map((item, i) => {
-												return (
-													<Item key={i}>
-														<ItemName
-															name={`items[${i}].name`}
-															label="ItemName"
-														/>
-														<Textbox
-															name={`items[${i}].quantity`}
-															label="Quantity"
-														/>
-														<Textbox
-															name={`items[${i}].price`}
-															label="Price"
-														/>
-														<Textbox
-															name={`items[${i}].total`}
-															label="Total"
-															disabled={true}
-															value={
-																'£' +
-																item.price *
-																	+item.quantity
-															}
-														/>
-														<DeleteIcon
-															onClick={() => {
-																setFieldValue(
-																	'items',
-																	values.items.filter(
-																		(item, index) =>
-																			index !== i
-																	)
-																);
-															}}
-															isFirst={i === 0}
-															src={deleteIconPath}
-															alt=""
-														/>
-													</Item>
-												);
-											})}
-
-											<button
-												onClick={() => {
-													setFieldValue('items', [
-														...values.items,
-														{
-															name: '',
-															price: '',
-															quantity: '',
-														},
-													]);
-												}}
-												type="button"
-												className="btn"
-											>
-												Add Item
-											</button>
-										</ItemList>
+										<ItemList />
 									</FormElement>
 
 									<FormControls>

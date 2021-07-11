@@ -1,7 +1,7 @@
 import { Form } from 'formik';
 import { motion } from 'framer-motion';
 import styled, { css } from 'styled-components';
-import { Textbox } from '../reusables/FormElements';
+import { Textbox } from '../../reusables/FormElements';
 
 export const Body = styled.div`
 	position: fixed;
@@ -95,54 +95,5 @@ export const FormControls = styled.div`
 	@media (min-width: 720px) {
 		grid-template-columns: 1fr 1fr 1fr;
 		justify-self: right;
-	}
-`;
-
-export const ItemList = styled.div`
-	display: grid;
-	gap: 5rem;
-
-	@media (min-width: 900px) {
-		gap: 3rem;
-	}
-`;
-
-export const Item = styled.div`
-	display: grid;
-	gap: 2rem;
-	grid-template-columns: 7rem 1fr 1.2fr auto;
-	align-items: center;
-
-	@media (min-width: 900px) {
-		grid-template-columns: 2fr 7rem 1fr 1.2fr auto;
-		&:not(:first-of-type) label {
-			display: none;
-		}
-	}
-`;
-
-export const DeleteIcon = styled.img`
-	margin-top: 2rem;
-	cursor: pointer;
-
-	&:hover {
-		opacity: 0.7;
-	}
-
-	@media (min-width: 800px) {
-		margin-top: 0;
-		${({ isFirst }) =>
-			isFirst &&
-			css`
-				margin-top: 2rem;
-			`}
-	}
-`;
-
-export const ItemName = styled(Textbox)`
-	grid-column: 1/-1;
-
-	@media (min-width: 900px) {
-		grid-column: unset;
 	}
 `;
