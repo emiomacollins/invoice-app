@@ -39,11 +39,13 @@ function InvoiceFormElement({ isDraft, setIsDraft, handleCloseForm }) {
 						placeholder="email@example.com"
 					/>
 					<Textbox label="street address" name="clientAddress.street" />
+
 					<Columns>
 						<Textbox label="City" name="clientAddress.city" />
 						<Textbox label="post code" name="clientAddress.postCode" />
 						<Textbox label="country" name="clientAddress.country" />
 					</Columns>
+
 					<Columns>
 						<DatePicker name="paymentDue" label="Payment Due" />
 
@@ -54,6 +56,7 @@ function InvoiceFormElement({ isDraft, setIsDraft, handleCloseForm }) {
 							<option value="30">Next 30 Days</option>
 						</Select>
 					</Columns>
+
 					<Textbox
 						label="Description"
 						name="description"

@@ -1,7 +1,6 @@
 import { Form } from 'formik';
 import { motion } from 'framer-motion';
 import styled, { css } from 'styled-components';
-import { Textbox } from '../../reusables/FormElements';
 
 export const Body = styled.div`
 	position: fixed;
