@@ -115,7 +115,10 @@ function InvoiceForm() {
 			createdAt: isEditing?.createdAt || new Date(),
 			description,
 			id: isEditing?.id || shortid.generate(),
-			items: items.map((item) => ({ ...item, total: item.price * item.quantity })),
+			items: items.map((item) => ({
+				...item,
+				total: item.price * item.quantity || 0,
+			})),
 			paymentDue,
 			paymentTerms,
 			senderAddress,
@@ -129,7 +132,7 @@ function InvoiceForm() {
 					? 'draft'
 					: 'pending',
 			total: items.reduce((acc, item) => {
-				return acc + item.price * item.quantity;
+				return acc + item.price * item.quantity || 0;
 			}, 0),
 		};
 
