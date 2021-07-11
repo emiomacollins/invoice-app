@@ -84,8 +84,9 @@ export const BillTo = styled.div`
 `;
 
 export const FormControls = styled.div`
-	display: grid;
 	gap: 1.5rem;
+	display: flex;
+	flex-wrap: wrap;
 
 	@media (min-width: 510px) {
 		grid-template-columns: 1fr 1fr;

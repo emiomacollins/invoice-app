@@ -16,7 +16,7 @@ const Container = styled.div`
 const Item = styled.div`
 	display: grid;
 	gap: 2rem;
-	grid-template-columns: 7rem 1fr 1.2fr auto;
+	grid-template-columns: 1fr 1fr;
 	align-items: center;
 
 	@media (min-width: 900px) {
@@ -27,9 +27,14 @@ const Item = styled.div`
 	}
 `;
 
+const Quantity = styled(Textbox)``;
+
+const Total = styled(Textbox)``;
+
 const DeleteIcon = styled.img`
-	margin-top: 2rem;
+	margin-top: 3rem;
 	cursor: pointer;
+	height: 2.5rem;
 
 	&:hover {
 		opacity: 0.7;
@@ -54,7 +59,7 @@ const ItemName = styled(Textbox)`
 `;
 
 function ItemList() {
-	const [fields, meta, helpers] = useField('items');
+	const [, meta, helpers] = useField('items');
 
 	function handleAddItem() {
 		helpers.setValue([
@@ -79,13 +84,13 @@ function ItemList() {
 					return (
 						<Item key={i}>
 							<ItemName name={`items[${i}].name`} label="ItemName" />
-							<Textbox name={`items[${i}].quantity`} label="Quantity" />
+							<Quantity name={`items[${i}].quantity`} label="Quantity" />
 							<Textbox name={`items[${i}].price`} label="Price" />
-							<Textbox
+							<Total
 								name={`items[${i}].total`}
 								label="Total"
 								disabled={true}
-								value={'£' + item.price * +item.quantity}
+								value={'£' + +item.price * +item.quantity}
 							/>
 							<DeleteIcon
 								onClick={() => handleDeleteItem(i)}

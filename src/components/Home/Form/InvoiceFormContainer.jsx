@@ -11,22 +11,27 @@ import {
 import * as yup from 'yup';
 import shortid from 'shortid';
 import { addInvoice, updateInvoice } from '../../../redux/invoicesSlice';
-import { dateToString } from '../../../Helpers/Util';
 import { cloneDeep } from 'lodash';
 import { Body, FormContainer, Overlay } from './InvoiceFormStyles';
 import InvoiceFormElement from './InvoiceFormElement';
-import { useState } from 'react';
+import { useEffect } from 'react';
 
 function InvoiceForm() {
 	const expanded = useSelector(getInvoiceFormExpanded);
 	const isEditing = useSelector(getInvoiceFormIsEditing);
-	const [isDraft, setIsDraft] = useState(false);
 	const dispatch = useDispatch();
+	const BodyEl = document.querySelector(`html`);
 
 	function handleCloseForm() {
 		dispatch(toggleExpanded());
 		dispatch(setIsEditing(null));
 	}
+
+	useEffect(() => {
+		if (expanded) {
+			BodyEl.style.overflowY = 'hidden';
+		} else BodyEl.style.overflowY = 'scroll';
+	}, [BodyEl.style, expanded]);
 
 	const initialValues = (isEditing && cloneDeep(isEditing)) || {
 		clientAddress: {
@@ -91,7 +96,7 @@ function InvoiceForm() {
 		}),
 	});
 
-	function onSubmit(values) {
+	function onSubmit(values, formikApi, options) {
 		const {
 			clientAddress,
 			clientEmail,
@@ -107,11 +112,11 @@ function InvoiceForm() {
 			clientAddress,
 			clientEmail,
 			clientName,
-			createdAt: isEditing?.createdAt || dateToString(new Date()),
+			createdAt: isEditing?.createdAt || new Date(),
 			description,
 			id: isEditing?.id || shortid.generate(),
-			items,
-			paymentDue: dateToString(paymentDue),
+			items: items.map((item) => ({ ...item, total: item.price * item.quantity })),
+			paymentDue,
 			paymentTerms,
 			senderAddress,
 			status:
@@ -120,7 +125,7 @@ function InvoiceForm() {
 				// else set it to pending
 				isEditing && isEditing.status !== 'draft'
 					? isEditing.status
-					: isDraft
+					: options?.isDraft
 					? 'draft'
 					: 'pending',
 			total: items.reduce((acc, item) => {
@@ -161,9 +166,8 @@ function InvoiceForm() {
 							onSubmit={onSubmit}
 						>
 							<InvoiceFormElement
-								isDraft={isDraft}
-								setIsDraft={setIsDraft}
 								handleCloseForm={handleCloseForm}
+								onSubmit={onSubmit}
 							/>
 						</Formik>
 					</FormContainer>

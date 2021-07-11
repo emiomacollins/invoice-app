@@ -129,7 +129,10 @@ export function DatePicker(props) {
 				{...fields}
 				{...otherprops}
 				selected={fields.value}
-				onChange={(e) => helpers.setValue(e)}
+				onChange={(e) => {
+					console.log(e);
+					helpers.setValue(e);
+				}}
 				customInput={<CustomInput />}
 				isInvalid={meta.touched && meta.error}
 			/>
