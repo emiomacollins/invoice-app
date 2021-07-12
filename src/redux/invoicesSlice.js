@@ -3,21 +3,30 @@ import { firestore } from '../firebase/firebaseUtil';
 // import mockData from './invoicesMockData.json';
 
 const initialState = {
-	invoices: {},
+	invoices: null,
 	filter: '',
 	isFetching: 'idle',
 };
 
-export const fetchInvoices = createAsyncThunk('invoices/fetchInvoices', async (uid) => {
-	const invoicesRef = firestore.collection(`users/${uid}/invoices`);
-	const snapShot = await invoicesRef.get();
-	if (snapShot.empty) return {};
-	const invoices = {};
-	snapShot.docs.forEach((document) => {
-		invoices[document.id] = document.data();
-	});
-	return invoices;
-});
+export const fetchInvoices = createAsyncThunk(
+	'invoices/fetchInvoices',
+	async (payload, { getState }) => {
+		const {
+			user: { user },
+		} = getState();
+
+		const invoicesRef = firestore.collection(`users/${user.uid}/invoices`);
+		const snapShot = await invoicesRef.get();
+		if (snapShot.empty) return {};
+
+		const invoices = {};
+		snapShot.docs.forEach((document) => {
+			invoices[document.id] = document.data();
+		});
+
+		return invoices;
+	}
+);
 
 export const addInvoice = createAsyncThunk(
 	'invoices/addInvoice',
@@ -123,14 +132,17 @@ export const getIsFetchingInvoices = createSelector(
 export const getFilteredInvoices = createSelector(
 	getInvoicesState,
 	({ invoices, filter }) =>
-		Object.values(invoices)
-			.filter((invoice) => invoice.status.includes(filter))
-			.sort((a, b) =>
-				new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime() ? -1 : 1
-			)
+		invoices
+			? Object.values(invoices)
+					.filter((invoice) => invoice.status.includes(filter))
+					.sort((a, b) =>
+						new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()
+							? -1
+							: 1
+					)
+			: null
 );
 
-export const getInvoicesTotal = createSelector(
-	getFilteredInvoices,
-	(invoices) => Object.keys(invoices).length
+export const getInvoicesTotal = createSelector(getFilteredInvoices, (invoices) =>
+	invoices ? Object.keys(invoices).length : null
 );

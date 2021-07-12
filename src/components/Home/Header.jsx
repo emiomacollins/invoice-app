@@ -5,6 +5,7 @@ import { getInvoicesTotal } from '../../redux/invoicesSlice';
 import Filter from './Filter';
 import { PlusIcon } from '../../assets/CustomSvgs';
 import { toggleExpanded } from '../../redux/invoiceFormSlice';
+import { withInvoices } from '../../Helpers/withInvoices';
 
 const Container = styled.div`
 	display: grid;
@@ -69,4 +70,4 @@ function Header() {
 	);
 }
 
-export default Header;
+export default withInvoices(Header);
