@@ -77,7 +77,8 @@ const Popup = styled.div`
 	position: absolute;
 	top: 110%;
 	right: 10%;
-	background: #fff;
+	background: var(--color-mid);
+	box-shadow: var(--shadow-light);
 	width: max-content;
 	padding: 2rem 1rem;
 	border-radius: var(--border-radius);

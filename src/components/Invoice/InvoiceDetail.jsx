@@ -21,7 +21,7 @@ import {
 	Status,
 	Title,
 } from './invoiceDetailStyles';
-import { setIsEditing, toggleExpanded } from '../../redux/invoiceFormSlice';
+import { setIsEditing, toggleFormExpanded } from '../../redux/invoiceFormSlice';
 
 function InvoiceDetail({ invoice }) {
 	const dispatch = useDispatch();
@@ -50,7 +50,7 @@ function InvoiceDetail({ invoice }) {
 
 	function handleEditInvoice() {
 		dispatch(setIsEditing(invoice));
-		dispatch(toggleExpanded());
+		dispatch(toggleFormExpanded());
 	}
 
 	const itemsList = items.map(({ name, quantity, price, total }, idx) => {

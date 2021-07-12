@@ -22,7 +22,8 @@ const invoiceFormReducer = invoiceFormSlice.reducer;
 export default invoiceFormReducer;
 
 // ACTIONS
-export const { toggleExpanded, setIsEditing } = invoiceFormSlice.actions;
+export const { toggleExpanded: toggleFormExpanded, setIsEditing } =
+	invoiceFormSlice.actions;
 
 // SELECTORS
 const getInvoiceFormState = (store) => store.invoiceForm;

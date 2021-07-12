@@ -27,3 +27,18 @@ export function signInWithGoogle() {
 export function signInAsGuest() {
 	auth.signInAnonymously();
 }
+
+export function uploadInvoices(authUser, invoices) {
+	const invoicesRef = firestore.collection(`users/${authUser.uid}/invoices`);
+	const batch = firestore.batch();
+	invoices.forEach((invoice, i) => {
+		const newDocumentRef = invoicesRef.doc();
+		batch.set(newDocumentRef, {
+			...invoice,
+			createdAt: new Date(invoice.createdAt).toISOString(),
+			paymentDue: new Date(invoice.paymentDue).toISOString(),
+			id: newDocumentRef.id,
+		});
+	});
+	batch.commit();
+}

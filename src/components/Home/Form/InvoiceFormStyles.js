@@ -47,7 +47,7 @@ export const FormElement = styled(Form)`
 	gap: 4rem;
 	overflow-y: scroll;
 	overflow-x: hidden;
-
+	align-content: flex-start;
 	padding-right: 3rem;
 `;
 

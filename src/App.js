@@ -8,7 +8,7 @@ import Nav from './components/reusables/Nav';
 import InvoicePage from './pages/Invoice/InvoicePage';
 import InvoiceForm from './components/Home/Form/InvoiceFormContainer';
 import { useEffect } from 'react';
-import { auth, firestore } from './firebase/firebaseUtil';
+import { auth, firestore, uploadInvoices } from './firebase/firebaseUtil';
 import { setUser } from './redux/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { withUser } from './Helpers/withUser';
@@ -30,20 +30,7 @@ function App() {
 			if (!authUser) dispatch(resetInvoices());
 
 			// if (!authUser) return;
-
-			// const invoicesRef = firestore.collection(`users/${authUser.uid}/invoices`);
-			// const batch = firestore.batch();
-
-			// invoices.forEach((invoice, i) => {
-			// 	const newDocumentRef = invoicesRef.doc();
-			// 	batch.set(newDocumentRef, {
-			// 		...invoice,
-			// 		createdAt: new Date(invoice.createdAt).toISOString(),
-			// 		paymentDue: new Date(invoice.paymentDue).toISOString(),
-			// 		id: newDocumentRef.id,
-			// 	});
-			// });
-			// batch.commit();
+			// uploadInvoices(authUser,invoices);
 		});
 		return unsuscribe;
 	}, []);
@@ -61,6 +48,3 @@ function App() {
 }
 
 export default App;
-
-// TODO
-// After cleaning mock data check that date issue

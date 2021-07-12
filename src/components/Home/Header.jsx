@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { getInvoicesTotal } from '../../redux/invoicesSlice';
 import Filter from './Filter';
 import { PlusIcon } from '../../assets/CustomSvgs';
-import { toggleExpanded } from '../../redux/invoiceFormSlice';
+import { toggleFormExpanded } from '../../redux/invoiceFormSlice';
 import { withInvoices } from '../../Helpers/withInvoices';
 
 const Container = styled.div`
@@ -50,16 +50,18 @@ function Header() {
 	const total = useSelector(getInvoicesTotal);
 
 	function handleAddNewInvoice() {
-		dispatch(toggleExpanded());
+		dispatch(toggleFormExpanded());
 	}
 
 	return (
 		<Container>
 			<div>
 				<Heading>Invoices</Heading>
-				<p>There are {total} total invoices</p>
+				{total ? <p>There are {total} total invoices</p> : null}
 			</div>
+
 			<Filter />
+
 			<Button onClick={handleAddNewInvoice} className="btn">
 				<IconContainer>
 					<PlusIcon />

@@ -6,7 +6,7 @@ import {
 	getInvoiceFormExpanded,
 	getInvoiceFormIsEditing,
 	setIsEditing,
-	toggleExpanded,
+	toggleFormExpanded,
 } from '../../../redux/invoiceFormSlice';
 import * as yup from 'yup';
 import { addInvoice, updateInvoice } from '../../../redux/invoicesSlice';
@@ -22,7 +22,7 @@ function InvoiceForm() {
 	const BodyEl = document.querySelector(`html`);
 
 	function handleCloseForm() {
-		dispatch(toggleExpanded());
+		dispatch(toggleFormExpanded());
 		dispatch(setIsEditing(null));
 	}
 
