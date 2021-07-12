@@ -1,26 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
 import './css/App.scss';
 import 'normalize-css';
-import { Switch, Route } from 'react-router-dom';
+
 import Home from './pages/Home/Home';
 import Nav from './components/reusables/Nav';
 import InvoicePage from './pages/Invoice/InvoicePage';
 import InvoiceForm from './components/Home/Form/InvoiceFormContainer';
-import { useEffect } from 'react';
-import { auth, firestore, uploadInvoices } from './firebase/firebaseUtil';
-import { setUser } from './redux/userSlice';
-import { useDispatch, useSelector } from 'react-redux';
+
+import { auth } from './firebase/firebaseUtil';
 import { withUser } from './Helpers/withUser';
-import { fetchInvoices, getFilteredInvoices, resetInvoices } from './redux/invoicesSlice';
-import { useState } from 'react';
+
+import { resetInvoices } from './redux/invoicesSlice';
+import { setUser } from './redux/userSlice';
 
 function App() {
 	const dispatch = useDispatch();
-
 	// to avoid showing stuff before the cached user is initialized by firebase
 	const [authInitialized, setAuthInitialized] = useState(false);
-
 	// const invoices = useSelector(getFilteredInvoices);
 
 	useEffect(() => {

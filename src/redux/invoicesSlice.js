@@ -121,9 +121,9 @@ export const { setInvoicesFilter, resetInvoices } = invoicesSlice.actions;
 
 // SELECTORS
 const getInvoicesState = (store) => store.invoices;
-
 export const getInvoices = createSelector(getInvoicesState, ({ invoices }) => invoices);
 export const getInvoicesFilter = createSelector(getInvoicesState, ({ filter }) => filter);
+
 export const getIsFetchingInvoices = createSelector(
 	getInvoicesState,
 	({ isFetching }) => isFetching
