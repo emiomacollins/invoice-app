@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { withInvoices } from '../../Helpers/withInvoices';
 import { getFilteredInvoices } from '../../redux/invoicesSlice';
 import Invoice from './Invoice';
 
@@ -21,4 +22,4 @@ function InvoiceList() {
 	);
 }
 
-export default InvoiceList;
+export default withInvoices(InvoiceList);

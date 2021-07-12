@@ -45,6 +45,10 @@
         background: var(--color-purple-light);
     }
 
+    &:active {
+        transform: scale(.92);
+    }
+
     &--red {
         background: var(--color-red);
 

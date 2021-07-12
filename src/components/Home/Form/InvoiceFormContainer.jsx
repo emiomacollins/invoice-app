@@ -50,7 +50,7 @@ function InvoiceForm() {
 				quantity: '',
 			},
 		],
-		paymentDue: new Date(),
+		createdAt: new Date(),
 		paymentTerms: 1,
 		senderAddress: {
 			city: '',
@@ -85,7 +85,7 @@ function InvoiceForm() {
 			})
 		),
 
-		paymentDue: yup.date().required(),
+		createdAt: yup.date().required(),
 		paymentTerms: yup.number().required(),
 
 		senderAddress: yup.object({
@@ -103,7 +103,7 @@ function InvoiceForm() {
 			clientName,
 			description,
 			items,
-			paymentDue,
+			createdAt,
 			paymentTerms,
 			senderAddress,
 		} = values;
@@ -112,18 +112,21 @@ function InvoiceForm() {
 			clientAddress,
 			clientEmail,
 			clientName,
-			createdAt: isEditing?.createdAt || new Date(),
+			createdAt,
+			paymentDue: new Date(
+				// convert payment terms to milliseconds
+				createdAt.getTime() + paymentTerms * 24 * 60 * 60 * 1000
+			),
 			description,
 			id: isEditing?.id || shortid.generate(),
 			items: items.map((item) => ({
 				...item,
 				total: item.price * item.quantity || 0,
 			})),
-			paymentDue,
 			paymentTerms,
 			senderAddress,
 			status:
-				// if it's either pending or paid set it to either
+				// if it's being edited and it's either pending or paid set it to either
 				// if it's being saved as draft set it to draft
 				// else set it to pending
 				isEditing && isEditing.status !== 'draft'
@@ -135,6 +138,8 @@ function InvoiceForm() {
 				return acc + item.price * item.quantity || 0;
 			}, 0),
 		};
+
+		// console.log(invoice);
 
 		isEditing ? dispatch(updateInvoice(invoice)) : dispatch(addInvoice(invoice));
 		handleCloseForm();

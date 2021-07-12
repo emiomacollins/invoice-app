@@ -8,17 +8,33 @@ import Nav from './components/reusables/Nav';
 import InvoicePage from './pages/Invoice/InvoicePage';
 import InvoiceForm from './components/Home/Form/InvoiceFormContainer';
 import { useEffect } from 'react';
-import { auth } from './firebase/firebaseUtil';
+import { auth, firestore } from './firebase/firebaseUtil';
 import { setUser } from './redux/userSlice';
-import { useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { withUser } from './Helpers/withUser';
+import { fetchInvoices, getFilteredInvoices } from './redux/invoicesSlice';
 
 function App() {
 	const dispatch = useDispatch();
+	// const invoices = useSelector(getFilteredInvoices);
 
 	useEffect(() => {
 		const unsuscribe = auth.onAuthStateChanged((authUser) => {
 			dispatch(setUser(authUser));
+			if (!authUser) return;
+
+			// const invoicesRef = firestore.collection(`users/${authUser.uid}/invoices`);
+			// const batch = firestore.batch();
+
+			// invoices.forEach((invoice, i) => {
+			// 	const newDocumentRef = invoicesRef.doc();
+			// 	batch.set(newDocumentRef, {
+			// 		...invoice,
+			// 		createdAt: new Date(invoice.createdAt).toISOString(),
+			// 		paymentDue: new Date(invoice.paymentDue).toISOString(),
+			// 	});
+			// });
+			// batch.commit();
 		});
 		return unsuscribe;
 	}, []);
@@ -29,7 +45,7 @@ function App() {
 			<InvoiceForm />
 			<Switch>
 				<Route exact path="/" component={Home} />
-				<Route exact path="/invoice/:id" component={InvoicePage} />
+				<Route exact path="/invoice/:id" component={withUser(InvoicePage)} />
 			</Switch>
 		</>
 	);

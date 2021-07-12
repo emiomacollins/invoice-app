@@ -96,13 +96,13 @@ export function Textbox({ className, ...props }) {
 }
 
 export function Select(props) {
-	const [fields] = useField({ ...props });
+	const [fields] = useField(props);
 	const { name, label, ...otherprops } = props;
 
 	return (
 		<FormControl>
 			<Label htmlFor="name">{label}</Label>
-			<SelectEl {...fields} {...otherprops}></SelectEl>
+			<SelectEl {...fields} {...otherprops} />
 		</FormControl>
 	);
 }

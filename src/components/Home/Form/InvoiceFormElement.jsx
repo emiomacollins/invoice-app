@@ -47,9 +47,8 @@ function InvoiceFormElement({ setIsDraft, handleCloseForm, onSubmit }) {
 					</Columns>
 
 					<Columns>
-						<DatePicker name="paymentDue" label="Payment Due" />
-
-						<Select label="Payment Terms" name="PaymentTerms">
+						<DatePicker name="createdAt" label="Invoice Date" />
+						<Select label="Payment Terms" name="paymentTerms">
 							<option value="1">Next Day</option>
 							<option value="7">Next 7 Days</option>
 							<option value="14">Next 14 Days</option>
