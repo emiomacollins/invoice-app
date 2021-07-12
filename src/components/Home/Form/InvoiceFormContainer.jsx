@@ -9,7 +9,6 @@ import {
 	toggleExpanded,
 } from '../../../redux/invoiceFormSlice';
 import * as yup from 'yup';
-import shortid from 'shortid';
 import { addInvoice, updateInvoice } from '../../../redux/invoicesSlice';
 import { cloneDeep } from 'lodash';
 import { Body, FormContainer, Overlay } from './InvoiceFormStyles';

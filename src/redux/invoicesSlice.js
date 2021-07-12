@@ -1,10 +1,9 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
-import shortid from 'shortid';
 import { firestore } from '../firebase/firebaseUtil';
 // import mockData from './invoicesMockData.json';
 
 const initialState = {
-	invoices: [],
+	invoices: {},
 	filter: '',
 	isFetching: 'idle',
 };
@@ -12,7 +11,7 @@ const initialState = {
 export const fetchInvoices = createAsyncThunk('invoices/fetchInvoices', async (uid) => {
 	const invoicesRef = firestore.collection(`users/${uid}/invoices`);
 	const snapShot = await invoicesRef.get();
-	if (snapShot.empty) return [];
+	if (snapShot.empty) return {};
 	const invoices = {};
 	snapShot.docs.forEach((document) => {
 		invoices[document.id] = document.data();
@@ -28,7 +27,6 @@ export const addInvoice = createAsyncThunk(
 		} = getState();
 
 		const { uid } = user;
-
 		const invoicesRef = firestore.collection(`users/${uid}/invoices`);
 		const invoiceDocument = invoicesRef.doc();
 		const invoiceWithId = { ...invoice, id: invoiceDocument.id };
@@ -51,7 +49,18 @@ export const updateInvoice = createAsyncThunk(
 	}
 );
 
-export const deleteInvoice = createAsyncThunk('invoices/addInvoice', (id) => {});
+export const deleteInvoice = createAsyncThunk(
+	'invoices/deleteInvoice',
+	async (id, { getState }) => {
+		const {
+			user: { user },
+		} = getState();
+
+		const documentRef = firestore.doc(`users/${user.uid}/invoices/${id}`);
+		await documentRef.delete();
+		return id;
+	}
+);
 
 // SLICE DEFINITION
 const invoicesSlice = createSlice({
@@ -62,7 +71,9 @@ const invoicesSlice = createSlice({
 			state.filter = filter;
 		},
 		resetInvoices(state) {
-			state = initialState;
+			state.invoices = [];
+			state.filter = '';
+			state.isFetching = 'idle';
 		},
 	},
 	extraReducers: (builder) => {
@@ -87,9 +98,9 @@ const invoicesSlice = createSlice({
 			state.invoices[newInvoice.id] = newInvoice;
 		});
 
-		// builder.addCase(deleteInvoice.fulfilled, (state, { payload: id }) => {
-		// 	delete state.invoices[id];
-		// });
+		builder.addCase(deleteInvoice.fulfilled, (state, { payload: id }) => {
+			delete state.invoices[id];
+		});
 	},
 });
 
@@ -97,7 +108,7 @@ const invoicesReducer = invoicesSlice.reducer;
 export default invoicesReducer;
 
 // ACTIONS
-export const { setInvoicesFilter } = invoicesSlice.actions;
+export const { setInvoicesFilter, resetInvoices } = invoicesSlice.actions;
 
 // SELECTORS
 const getInvoicesState = (store) => store.invoices;

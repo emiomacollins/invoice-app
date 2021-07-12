@@ -12,7 +12,7 @@ import { auth, firestore } from './firebase/firebaseUtil';
 import { setUser } from './redux/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { withUser } from './Helpers/withUser';
-import { fetchInvoices, getFilteredInvoices } from './redux/invoicesSlice';
+import { fetchInvoices, getFilteredInvoices, resetInvoices } from './redux/invoicesSlice';
 import { useState } from 'react';
 
 function App() {
@@ -27,7 +27,9 @@ function App() {
 		const unsuscribe = auth.onAuthStateChanged((authUser) => {
 			dispatch(setUser(authUser));
 			setAuthInitialized(true);
-			if (!authUser) return;
+			if (!authUser) dispatch(resetInvoices());
+
+			// if (!authUser) return;
 
 			// const invoicesRef = firestore.collection(`users/${authUser.uid}/invoices`);
 			// const batch = firestore.batch();

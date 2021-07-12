@@ -1,6 +1,5 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import Badge from '../reusables/Badge';
 import { deleteInvoice, updateInvoice } from '../../redux/invoicesSlice';
 import { formatDate, formatNumber } from '../../Helpers/Util';
@@ -24,7 +23,7 @@ import {
 } from './invoiceDetailStyles';
 import { setIsEditing, toggleExpanded } from '../../redux/invoiceFormSlice';
 
-function InvoiceDetail({ invoice, history }) {
+function InvoiceDetail({ invoice }) {
 	const dispatch = useDispatch();
 
 	const {
@@ -43,7 +42,6 @@ function InvoiceDetail({ invoice, history }) {
 
 	function handleDeleteInvoice() {
 		dispatch(deleteInvoice(invoice.id));
-		history.push('/');
 	}
 
 	function handleMarkAsPaid() {
@@ -155,4 +153,4 @@ function InvoiceDetail({ invoice, history }) {
 	);
 }
 
-export default withRouter(InvoiceDetail);
+export default InvoiceDetail;

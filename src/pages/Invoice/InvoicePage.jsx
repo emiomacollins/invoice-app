@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { ArrowLeft } from '../../assets/CustomSvgs';
 import InvoiceDetail from '../../components/Invoice/InvoiceDetail';
@@ -27,7 +27,7 @@ function InvoicePage({ match }) {
 	const invoicesObj = useSelector(getInvoices);
 	const invoice = invoicesObj[id];
 
-	return (
+	return invoice ? (
 		<div className="page">
 			<Container
 				variants={opacityAnimations}
@@ -40,9 +40,11 @@ function InvoicePage({ match }) {
 					Go back
 				</BackBtn>
 
-				{invoice && <InvoiceDetail invoice={invoice} />}
+				<InvoiceDetail invoice={invoice} />
 			</Container>
 		</div>
+	) : (
+		<Redirect to="/" />
 	);
 }
 

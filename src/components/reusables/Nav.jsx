@@ -148,6 +148,7 @@ function Nav() {
 					<ProfilePicture
 						onClick={handleTogglePopupExpanded}
 						src={user.photoURL || anynomusIconPath}
+						onError={(e) => (e.target.src = anynomusIconPath)}
 						alt=""
 					/>
 				</ProfileContainer>
