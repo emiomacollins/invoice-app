@@ -20,3 +20,7 @@ export function withInvoices(Component) {
 	};
 	return Wrapper;
 }
+
+// this Higher order function handles fetching invoices if it does not exist.
+// it fetches invoices and renders a spinner then when the invoices
+// arrive it renders the component it was called on

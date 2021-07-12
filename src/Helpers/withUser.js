@@ -10,3 +10,7 @@ export function withUser(Component) {
 	};
 	return Wrapper;
 }
+
+// this higher order function blocks a non authenticated
+// person (non user) from accessing a component by redirecting
+// the person to the homepage, which renders the login component

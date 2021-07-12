@@ -23,5 +23,4 @@ export const { toggleTheme } = themeSlice.actions;
 
 // SELECTORS
 const getThemeState = (store) => store.theme;
-
 export const getTheme = createSelector(getThemeState, ({ theme }) => theme);

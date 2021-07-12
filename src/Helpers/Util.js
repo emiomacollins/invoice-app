@@ -5,7 +5,8 @@ export function formatDate(date) {
 		day: '2-digit',
 	});
 
-	// this function recieves an ISO date string from the invoices in firebase
+	// this function recieves an ISO date string which is the format
+	// dates are stored when creating an invoice
 	const dateObj = new Date(date);
 	return formatter.format(dateObj);
 }

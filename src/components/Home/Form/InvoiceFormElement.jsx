@@ -80,6 +80,7 @@ function InvoiceFormElement({ handleCloseForm, onSubmit }) {
 						Save as Draft
 					</button>
 				)}
+
 				<button form="formik" className="btn" type="submit">
 					{isEditing ? 'Save Changes' : 'Save and Send'}
 				</button>

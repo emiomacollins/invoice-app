@@ -23,9 +23,9 @@ const BackBtn = styled(Link)`
 `;
 
 function InvoicePage({ match }) {
-	const { id } = match.params;
+	const { id: invoiceID } = match.params;
 	const invoicesObj = useSelector(getInvoices);
-	const invoice = invoicesObj[id];
+	const invoice = invoicesObj[invoiceID];
 
 	return invoice ? (
 		<div className="page">

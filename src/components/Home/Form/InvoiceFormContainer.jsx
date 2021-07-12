@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from 'formik';
 import { AnimatePresence } from 'framer-motion';
 import React from 'react';
@@ -30,7 +31,7 @@ function InvoiceForm() {
 		if (expanded) {
 			BodyEl.style.overflowY = 'hidden';
 		} else BodyEl.style.overflowY = 'scroll';
-	}, [BodyEl.style, expanded]);
+	}, [expanded]);
 
 	const initialValues = (isEditing && cloneDeep(isEditing)) || {
 		clientAddress: {

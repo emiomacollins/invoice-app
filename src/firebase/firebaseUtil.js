@@ -12,12 +12,12 @@ const config = {
 	messagingSenderId: '669700947749',
 	appId: '1:669700947749:web:51170f35d4e63724a0e4cc',
 };
+
 // Initialize Firebase
 !firebase.apps.length && firebase.initializeApp(config);
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
-
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 export function signInWithGoogle() {

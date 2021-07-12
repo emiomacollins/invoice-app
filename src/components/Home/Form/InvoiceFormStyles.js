@@ -2,6 +2,7 @@ import { Form } from 'formik';
 import { motion } from 'framer-motion';
 import styled, { css } from 'styled-components';
 
+// form + overlay
 export const Body = styled.div`
 	position: fixed;
 	top: 0;
@@ -20,6 +21,7 @@ export const Body = styled.div`
 	}
 `;
 
+// heading + formEl + buttons
 export const FormContainer = styled(motion.div)`
 	width: 80vw;
 	min-width: 320px;
@@ -51,6 +53,7 @@ export const FormElement = styled(Form)`
 	padding-right: 3rem;
 `;
 
+// reusable form layout
 export const FormSection = css`
 	display: grid;
 	gap: 3rem;
@@ -61,6 +64,7 @@ export const FormSectionHeading = styled.h4`
 	/* margin-bottom: 1em; */
 `;
 
+// reusable
 export const Columns = styled.div`
 	display: grid;
 	gap: 2rem;
@@ -83,6 +87,7 @@ export const BillTo = styled.div`
 	${FormSection}
 `;
 
+// Buttons layout
 export const FormControls = styled.div`
 	gap: 1.5rem;
 	display: flex;

@@ -8,6 +8,7 @@ const initialState = {
 	isFetching: 'idle',
 };
 
+// THUNKS
 export const fetchInvoices = createAsyncThunk(
 	'invoices/fetchInvoices',
 	async (payload, { getState }) => {
@@ -113,6 +114,7 @@ const invoicesSlice = createSlice({
 	},
 });
 
+// REDUCER
 const invoicesReducer = invoicesSlice.reducer;
 export default invoicesReducer;
 
