@@ -18,6 +18,7 @@ import {
 	Details,
 	DetailsHeader,
 	Email,
+	InvoiceId,
 	Status,
 	Title,
 } from './invoiceDetailStyles';
@@ -93,10 +94,10 @@ function InvoiceDetail({ invoice, history }) {
 			<Details>
 				<DetailsHeader>
 					<Title>
-						<h3>
+						<InvoiceId>
 							<span className="accent">#</span>
-							{id}
-						</h3>
+							{id.slice(0, 6)}
+						</InvoiceId>
 						<p>{description}</p>
 					</Title>
 					<Address>
@@ -144,7 +145,6 @@ function InvoiceDetail({ invoice, history }) {
 						</BillRow>
 						{itemsList}
 					</BillDetails>
-
 					<BillTotal>
 						<h4>Amount Due</h4>
 						<h2>£{formatNumber(total)}</h2>

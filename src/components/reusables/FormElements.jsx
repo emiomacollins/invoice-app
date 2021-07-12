@@ -108,6 +108,8 @@ export function Select(props) {
 }
 
 const CustomInput = forwardRef(({ value, onClick }, ref) => (
+	// value : a string date value
+	// onClick : toggles the calendar visibility
 	<Button type="button" onClick={onClick} ref={ref}>
 		{formatDate(new Date(value))}
 		<DatePickerIcon src={calendarIconPath} alt="" />
@@ -115,11 +117,12 @@ const CustomInput = forwardRef(({ value, onClick }, ref) => (
 ));
 
 export function DatePicker(props) {
-	const [fields, meta, helpers] = useField(props);
+	const [fields, , helpers] = useField(props);
 	const { name, label, ...otherprops } = props;
 
 	return (
-		// this calendar is a pain to style
+		// have to fix spacing,  can't use grid cus it adds an extra gap
+		// under the datepicker button when the calendar visibility is toggled
 		<FormControl style={{ gap: 0 }}>
 			<Label htmlFor="name" style={{ marginBottom: '1rem' }}>
 				{label}
@@ -130,11 +133,9 @@ export function DatePicker(props) {
 				{...otherprops}
 				selected={fields.value}
 				onChange={(e) => {
-					console.log(e);
 					helpers.setValue(e);
 				}}
 				customInput={<CustomInput />}
-				isInvalid={meta.touched && meta.error}
 			/>
 		</FormControl>
 	);

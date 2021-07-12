@@ -62,7 +62,8 @@ function InvoiceForm() {
 	};
 
 	if (isEditing) {
-		initialValues.paymentDue = new Date(initialValues.paymentDue);
+		// convert string date to object for the form to use
+		initialValues.createdAt = new Date(initialValues.createdAt);
 	}
 
 	const validationSchema = yup.object({
@@ -112,13 +113,12 @@ function InvoiceForm() {
 			clientAddress,
 			clientEmail,
 			clientName,
-			createdAt,
+			createdAt: createdAt.toISOString(),
 			paymentDue: new Date(
 				// convert payment terms to milliseconds
 				createdAt.getTime() + paymentTerms * 24 * 60 * 60 * 1000
-			),
+			).toISOString(),
 			description,
-			id: isEditing?.id || shortid.generate(),
 			items: items.map((item) => ({
 				...item,
 				total: item.price * item.quantity || 0,
@@ -139,9 +139,9 @@ function InvoiceForm() {
 			}, 0),
 		};
 
-		// console.log(invoice);
-
-		isEditing ? dispatch(updateInvoice(invoice)) : dispatch(addInvoice(invoice));
+		isEditing
+			? dispatch(updateInvoice({ ...invoice, id: isEditing.id }))
+			: dispatch(addInvoice(invoice));
 		handleCloseForm();
 	}
 

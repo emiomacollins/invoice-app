@@ -1,23 +1,13 @@
 export function formatDate(date) {
-	try {
-		const formatter = new Intl.DateTimeFormat(navigator.language || 'eu', {
-			month: 'short',
-			year: 'numeric',
-			day: '2-digit',
-		});
-		const dateObj = new Date(date);
-		return formatter.format(dateObj);
-	} catch (error) {
-		console.log('couldnt parse date');
-	}
-}
+	const formatter = new Intl.DateTimeFormat(navigator.language || 'eu', {
+		month: 'short',
+		year: 'numeric',
+		day: '2-digit',
+	});
 
-export function dateToString(date) {
-	const year = date.getFullYear();
-	const month = date.getMonth().toString().padStart(2, 0);
-	const day = date.getDay().toString().padStart(2, 0);
-
-	return `${year}-${month}-${day}`;
+	// this function recieves an ISO date string from the invoices in firebase
+	const dateObj = new Date(date);
+	return formatter.format(dateObj);
 }
 
 export function formatNumber(num) {

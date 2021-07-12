@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
+import shortid from 'shortid';
 import { firestore } from '../firebase/firebaseUtil';
 // import mockData from './invoicesMockData.json';
 
@@ -12,32 +13,40 @@ export const fetchInvoices = createAsyncThunk('invoices/fetchInvoices', async (u
 	const invoicesRef = firestore.collection(`users/${uid}/invoices`);
 	const snapShot = await invoicesRef.get();
 	if (snapShot.empty) return [];
-	const invoices = snapShot.docs.map((document) => document.data());
+	const invoices = {};
+	snapShot.docs.map((document) => {
+		return (invoices[document.id] = { ...document.data(), id: document.id });
+	});
 	return invoices;
 });
+
+export const addInvoice = createAsyncThunk(
+	'invoices/addInvoice',
+	async (invoice, { getState }) => {
+		const {
+			user: { user },
+		} = getState();
+
+		const { uid } = user;
+
+		const invoicesRef = firestore.collection(`users/${uid}/invoices`);
+		const invoiceDocument = await invoicesRef.add(invoice);
+		return { ...invoice, id: invoiceDocument.id };
+	}
+);
+
+export const updateInvoice = createAsyncThunk('invoices/addInvoice', (newInvoice) => {
+	// use getstate in thunk to get user id and update corresponding document
+	// ideas chande invoices to an obj mapping firestore id to each obj as a property in invoices
+	// to update
+});
+
+export const deleteInvoice = createAsyncThunk('invoices/addInvoice', (id) => {});
 
 const invoicesSlice = createSlice({
 	name: 'invoices',
 	initialState,
 	reducers: {
-		addInvoice: (state, { payload: invoice }) => {
-			state.invoices.push(invoice);
-			// change to thunk and add to backend too
-		},
-
-		updateInvoice: (state, { payload: newInvoice }) => {
-			state.invoices = state.invoices.map((invoice) =>
-				invoice.id === newInvoice.id ? newInvoice : invoice
-			);
-			// use getstate in thunk to get user id and update corresponding document
-			// ideas chande invoices to an obj mapping firestore id to each obj as a property in invoices
-			// to update
-		},
-
-		deleteInvoice: (state, { payload: id }) => {
-			state.invoices = state.invoices.filter((invoice) => invoice.id !== id);
-		},
-
 		setInvoicesFilter: (state, { payload: filter }) => {
 			state.filter = filter;
 		},
@@ -53,6 +62,18 @@ const invoicesSlice = createSlice({
 		builder.addCase(fetchInvoices.rejected, (state) => {
 			state.isFetching = false;
 		});
+
+		builder.addCase(addInvoice.fulfilled, (state, { payload: invoice }) => {
+			state.invoices[invoice.id] = invoice;
+		});
+
+		// builder.addCase(updateInvoice.fulfilled, (state, { payload: newInvoice }) => {
+		// 	state.invoices[newInvoice.id] = newInvoice;
+		// });
+
+		// builder.addCase(deleteInvoice.fulfilled, (state, { payload: id }) => {
+		// 	delete state.invoices[id];
+		// });
 	},
 });
 
@@ -60,8 +81,7 @@ const invoicesReducer = invoicesSlice.reducer;
 export default invoicesReducer;
 
 // ACTIONS
-export const { setInvoicesFilter, deleteInvoice, updateInvoice, addInvoice } =
-	invoicesSlice.actions;
+export const { setInvoicesFilter } = invoicesSlice.actions;
 
 // SELECTORS
 const getInvoicesState = (store) => store.invoices;
@@ -76,10 +96,14 @@ export const getIsFetchingInvoices = createSelector(
 export const getFilteredInvoices = createSelector(
 	getInvoicesState,
 	({ invoices, filter }) =>
-		invoices.filter((invoice) => invoice.status.includes(filter)).reverse()
+		Object.values(invoices)
+			.filter((invoice) => invoice.status.includes(filter))
+			.sort((a, b) =>
+				new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime() ? -1 : 1
+			)
 );
 
 export const getInvoicesTotal = createSelector(
 	getFilteredInvoices,
-	(invoices) => invoices.length
+	(invoices) => Object.keys(invoices).length
 );

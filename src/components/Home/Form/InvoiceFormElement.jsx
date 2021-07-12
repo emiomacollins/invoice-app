@@ -13,9 +13,13 @@ import {
 } from './InvoiceFormStyles';
 import ItemList from './ItemList';
 
-function InvoiceFormElement({ setIsDraft, handleCloseForm, onSubmit }) {
+function InvoiceFormElement({ handleCloseForm, onSubmit }) {
 	const { values } = useFormikContext();
 	const isEditing = useSelector(getInvoiceFormIsEditing);
+
+	function handleSaveAsDraft() {
+		onSubmit(values, null, { isDraft: true });
+	}
 
 	return (
 		<>
@@ -72,13 +76,7 @@ function InvoiceFormElement({ setIsDraft, handleCloseForm, onSubmit }) {
 				</button>
 
 				{values.status === 'draft' && (
-					<button
-						onClick={async () => {
-							// await setIsDraft(true);
-							onSubmit(values, null, { isDraft: true });
-						}}
-						className="btn btn--gray"
-					>
+					<button onClick={handleSaveAsDraft} className="btn btn--gray">
 						Save as Draft
 					</button>
 				)}

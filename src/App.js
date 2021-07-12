@@ -13,14 +13,20 @@ import { setUser } from './redux/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { withUser } from './Helpers/withUser';
 import { fetchInvoices, getFilteredInvoices } from './redux/invoicesSlice';
+import { useState } from 'react';
 
 function App() {
 	const dispatch = useDispatch();
+
+	// to avoid showing stuff before the cached user is initialized by firebase
+	const [authInitialized, setAuthInitialized] = useState(false);
+
 	// const invoices = useSelector(getFilteredInvoices);
 
 	useEffect(() => {
 		const unsuscribe = auth.onAuthStateChanged((authUser) => {
 			dispatch(setUser(authUser));
+			setAuthInitialized(true);
 			if (!authUser) return;
 
 			// const invoicesRef = firestore.collection(`users/${authUser.uid}/invoices`);
@@ -39,7 +45,7 @@ function App() {
 		return unsuscribe;
 	}, []);
 
-	return (
+	return authInitialized ? (
 		<>
 			<Nav />
 			<InvoiceForm />
@@ -48,7 +54,7 @@ function App() {
 				<Route exact path="/invoice/:id" component={withUser(InvoicePage)} />
 			</Switch>
 		</>
-	);
+	) : null;
 }
 
 export default App;

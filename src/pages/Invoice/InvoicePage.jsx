@@ -5,6 +5,7 @@ import { Link, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { ArrowLeft } from '../../assets/CustomSvgs';
 import InvoiceDetail from '../../components/Invoice/InvoiceDetail';
+import { withInvoices } from '../../Helpers/withInvoices';
 import { getInvoices } from '../../redux/invoicesSlice';
 import { opacityAnimations } from '../Home/Home';
 
@@ -23,8 +24,8 @@ const BackBtn = styled(Link)`
 
 function InvoicePage({ match }) {
 	const { id } = match.params;
-	const invoices = useSelector(getInvoices);
-	const invoice = invoices.find((invoice) => invoice.id === id);
+	const invoicesObj = useSelector(getInvoices);
+	const invoice = invoicesObj[id];
 
 	return (
 		<div className="page">
@@ -45,4 +46,4 @@ function InvoicePage({ match }) {
 	);
 }
 
-export default withRouter(InvoicePage);
+export default withInvoices(withRouter(InvoicePage));

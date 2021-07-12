@@ -10,6 +10,10 @@ export const Card = css`
 	}
 `;
 
+export const InvoiceId = styled.h3`
+	text-transform: uppercase;
+`;
+
 export const Status = styled.div`
 	display: flex;
 	justify-content: space-between;

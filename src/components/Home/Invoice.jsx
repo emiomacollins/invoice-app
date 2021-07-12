@@ -44,7 +44,7 @@ const Name = styled.p`
 `;
 
 const InvoiceId = styled.h3`
-	text-transform: capitalize;
+	text-transform: uppercase;
 	font-size: var(--size-400);
 `;
 
@@ -60,7 +60,7 @@ function Invoice({ invoice }) {
 			<Container>
 				<InvoiceId>
 					<span className="accent">#</span>
-					{id}
+					{id.slice(0, 6)}
 				</InvoiceId>
 
 				<Name>{clientName}</Name>
