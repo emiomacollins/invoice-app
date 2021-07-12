@@ -38,6 +38,7 @@ function App() {
 			// 		...invoice,
 			// 		createdAt: new Date(invoice.createdAt).toISOString(),
 			// 		paymentDue: new Date(invoice.paymentDue).toISOString(),
+			// 		id: newDocumentRef.id,
 			// 	});
 			// });
 			// batch.commit();

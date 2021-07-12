@@ -1,6 +1,6 @@
 .loader {
     width: 100%;
-    height: calc(100vh - var(--nav-height) * 3);
+    height: calc(100vh - var(--nav-height));
     display: grid;
     place-content: center;
 }
