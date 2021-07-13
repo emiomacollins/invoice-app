@@ -5,12 +5,12 @@ import 'firebase/auth';
 import 'firebase/firestore';
 
 const config = {
-	apiKey: 'AIzaSyAIDOLCt3oyuY3KwDXgF75M1FzWoTivSck',
-	authDomain: 'invoice-app-v1.firebaseapp.com',
-	projectId: 'invoice-app-v1',
-	storageBucket: 'invoice-app-v1.appspot.com',
-	messagingSenderId: '669700947749',
-	appId: '1:669700947749:web:51170f35d4e63724a0e4cc',
+	apiKey: process.env.REACT_APP_APIKEY,
+	authDomain: process.env.REACT_APP_AUTHDOMAIN,
+	projectId: process.env.REACT_APP_PROJECTID,
+	storageBucket: process.env.REACT_APP_STORAGEBUCKET,
+	messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
+	appId: process.env.REACT_APP_APPID,
 };
 
 // Initialize Firebase
