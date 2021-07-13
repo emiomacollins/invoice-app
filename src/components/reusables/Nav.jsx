@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import LogoPath from '../../assets/images/logo.svg';
@@ -8,6 +8,10 @@ import { getUser } from '../../redux/userSlice';
 import ThemeToggle from './ThemeToggle';
 import { useState } from 'react';
 import { auth } from '../../firebase/firebaseUtil';
+import {
+	getUserProfilePopupExpanded,
+	setUserProfilePopupExpanded,
+} from '../../redux/uiSlice';
 
 const Container = styled.div`
 	position: fixed;
@@ -116,15 +120,16 @@ const ProfilePicture = styled.img`
 `;
 
 function Nav() {
+	const dispatch = useDispatch();
 	const user = useSelector(getUser);
-	const [popupExpanded, setPopupExpanded] = useState(false);
+	const popupExpanded = useSelector(getUserProfilePopupExpanded);
 
 	function handleTogglePopupExpanded() {
-		setPopupExpanded(!popupExpanded);
+		dispatch(setUserProfilePopupExpanded(!popupExpanded));
 	}
 
 	function handleSignOut() {
-		setPopupExpanded(!popupExpanded);
+		handleTogglePopupExpanded();
 		user.isAnonymous ? user.delete() : auth.signOut();
 	}
 

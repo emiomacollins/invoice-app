@@ -3,9 +3,10 @@ import Header from '../../components/Home/Header';
 import InvoiceList from '../../components/Home/InvoiceList';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../redux/userSlice';
 import Login from '../../components/Home/Login';
+import { setFilterBoxExpanded, setUserProfilePopupExpanded } from '../../redux/uiSlice';
 
 export const Container = styled.div`
 	display: grid;
@@ -25,6 +26,12 @@ export const opacityAnimations = {
 
 function Home() {
 	const user = useSelector(getUser);
+	const dispatch = useDispatch();
+
+	function handleCloseExpanded(e) {
+		dispatch(setFilterBoxExpanded(false));
+		dispatch(setUserProfilePopupExpanded(false));
+	}
 
 	return (
 		<motion.div
@@ -33,6 +40,7 @@ function Home() {
 			animate="show"
 			exit="hide"
 			className="page"
+			onClick={handleCloseExpanded}
 		>
 			<Container className="container">
 				{user ? (

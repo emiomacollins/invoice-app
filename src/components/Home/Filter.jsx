@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import { getInvoicesFilter, setInvoicesFilter } from '../../redux/invoicesSlice';
 import checkIconPath from '../../assets/images/icon-check.svg';
 import ArrowIconPath from '../../assets/images/icon-arrow-right.svg';
+import { getFilterBoxExpanded, setFilterBoxExpanded } from '../../redux/uiSlice';
 
 const Container = styled.div`
 	position: relative;
@@ -92,11 +93,12 @@ const OptionsContainer = styled.div`
 
 function Filter() {
 	const dispatch = useDispatch();
-	const [expanded, setExpanded] = useState(false);
+	const expanded = useSelector(getFilterBoxExpanded);
 	const invoiceFilter = useSelector(getInvoicesFilter);
 
-	function handleToggleExpanded() {
-		setExpanded(!expanded);
+	function handleToggleExpanded(e) {
+		e.stopPropagation();
+		dispatch(setFilterBoxExpanded(!expanded));
 	}
 
 	function handleSetFilter(e) {
@@ -131,7 +133,9 @@ function Filter() {
 				<ToggleLabel className="bold">Filter</ToggleLabel>
 				<ArrowIcon src={ArrowIconPath} rotated={!expanded} />
 			</Toggle>
-			<OptionsContainer hidden={!expanded}>{OptionsList}</OptionsContainer>
+			<OptionsContainer onClick={(e) => e.stopPropagation()} hidden={!expanded}>
+				{OptionsList}
+			</OptionsContainer>
 		</Container>
 	);
 }
