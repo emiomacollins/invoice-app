@@ -6,7 +6,6 @@ import LogoPath from '../../assets/images/logo.svg';
 import anynomusIconPath from '../../assets/images/anynomusIcon.svg';
 import { getUser } from '../../redux/userSlice';
 import ThemeToggle from './ThemeToggle';
-import { useState } from 'react';
 import { auth } from '../../firebase/firebaseUtil';
 import {
 	getUserProfilePopupExpanded,

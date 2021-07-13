@@ -65,7 +65,6 @@ function InvoiceForm() {
 			postCode: '',
 			street: '',
 		},
-		status: 'draft',
 	};
 
 	if (isEditing) {
@@ -104,7 +103,7 @@ function InvoiceForm() {
 		}),
 	});
 
-	function onSubmit(values, formikApi, options) {
+	function onSubmit(values, Formik, options) {
 		const {
 			clientAddress,
 			clientEmail,
@@ -145,6 +144,29 @@ function InvoiceForm() {
 				return acc + item.price * item.quantity || 0;
 			}, 0),
 		};
+
+		// validate draft too
+		let draftIsValid = true;
+		if (options?.isDraft) {
+			Object.entries(values).forEach(([field, value]) => {
+				const meta = Formik.getFieldMeta(field);
+
+				if (meta.touched && meta.error) {
+					// console.log(field,'is Invalid');
+
+					if (typeof value === 'object' && !value.length) {
+						Object.keys(value).forEach((key) => {
+							Formik.setFieldTouched(`${field}.${key}`, true);
+							Formik.setFieldError(`${field}.${key}`, true);
+						});
+					}
+
+					draftIsValid = false;
+					return;
+				}
+			});
+		}
+		if (!draftIsValid) return;
 
 		isEditing
 			? dispatch(updateInvoice({ ...invoice, id: isEditing.id }))

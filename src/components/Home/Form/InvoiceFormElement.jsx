@@ -15,12 +15,13 @@ import {
 import ItemList from './ItemList';
 
 function InvoiceFormElement({ handleCloseForm, onSubmit }) {
-	const { values } = useFormikContext();
+	const Formik = useFormikContext();
+	const { values } = Formik;
 	const isEditing = useSelector(getInvoiceFormIsEditing);
 	const invoiceOperationPending = useSelector(getInvoiceOperationPending);
 
 	function handleSaveAsDraft() {
-		onSubmit(values, null, { isDraft: true });
+		onSubmit(values, Formik, { isDraft: true });
 	}
 
 	return (
@@ -77,7 +78,7 @@ function InvoiceFormElement({ handleCloseForm, onSubmit }) {
 					Discard
 				</button>
 
-				{values.status === 'draft' && (
+				{values.status !== 'pending' && (
 					<button
 						onClick={handleSaveAsDraft}
 						disabled={invoiceOperationPending}
