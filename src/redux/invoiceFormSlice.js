@@ -9,8 +9,8 @@ const invoiceFormSlice = createSlice({
 	name: 'invoiceForm',
 	initialState,
 	reducers: {
-		toggleExpanded(state) {
-			state.expanded = !state.expanded;
+		setFormExpanded(state, { payload: expanded }) {
+			state.expanded = expanded;
 		},
 		setIsEditing(state, { payload: obj }) {
 			state.isEditing = obj;
@@ -22,8 +22,7 @@ const invoiceFormReducer = invoiceFormSlice.reducer;
 export default invoiceFormReducer;
 
 // ACTIONS
-export const { toggleExpanded: toggleFormExpanded, setIsEditing } =
-	invoiceFormSlice.actions;
+export const { setFormExpanded, setIsEditing } = invoiceFormSlice.actions;
 
 // SELECTORS
 const getInvoiceFormState = (store) => store.invoiceForm;

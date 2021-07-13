@@ -2,12 +2,6 @@ import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
 import { firestore } from '../firebase/firebaseUtil';
 // import mockData from './invoicesMockData.json';
 
-const initialState = {
-	invoices: null,
-	filter: '',
-	isFetching: 'idle',
-};
-
 // THUNKS
 export const fetchInvoices = createAsyncThunk(
 	'invoices/fetchInvoices',
@@ -73,6 +67,14 @@ export const deleteInvoice = createAsyncThunk(
 );
 
 // SLICE DEFINITION
+const initialState = {
+	invoices: null,
+	filter: '',
+	isFetching: 'idle',
+	invoiceOperationSuccess: false,
+	invoiceOperationPending: false,
+};
+
 const invoicesSlice = createSlice({
 	name: 'invoices',
 	initialState,
@@ -85,7 +87,11 @@ const invoicesSlice = createSlice({
 			state.filter = '';
 			state.isFetching = 'idle';
 		},
+		setInvoiceOperationSuccess(state, { payload: bool }) {
+			state.invoiceOperationSuccess = bool;
+		},
 	},
+
 	extraReducers: (builder) => {
 		// FETCH INVOICE
 		builder.addCase(fetchInvoices.pending, (state) => {
@@ -99,16 +105,33 @@ const invoicesSlice = createSlice({
 			state.isFetching = false;
 		});
 
-		// INVOICE CRUD OPERATIONS
+		// ADD INVOICE
+		builder.addCase(addInvoice.pending, (state) => {
+			state.invoiceOperationPending = true;
+		});
 		builder.addCase(addInvoice.fulfilled, (state, { payload: invoice }) => {
+			state.invoiceOperationSuccess = true;
+			state.invoiceOperationPending = false;
 			state.invoices[invoice.id] = invoice;
 		});
 
+		// UPDATE INVOICE
+		builder.addCase(updateInvoice.pending, (state, { payload: newInvoice }) => {
+			state.invoiceOperationPending = true;
+		});
 		builder.addCase(updateInvoice.fulfilled, (state, { payload: newInvoice }) => {
+			state.invoiceOperationSuccess = true;
+			state.invoiceOperationPending = false;
 			state.invoices[newInvoice.id] = newInvoice;
 		});
 
+		// DELETE INVOICE
+		builder.addCase(deleteInvoice.pending, (state, { payload: id }) => {
+			state.invoiceOperationPending = true;
+		});
 		builder.addCase(deleteInvoice.fulfilled, (state, { payload: id }) => {
+			state.invoiceOperationSuccess = true;
+			state.invoiceOperationPending = false;
 			delete state.invoices[id];
 		});
 	},
@@ -119,7 +142,12 @@ const invoicesReducer = invoicesSlice.reducer;
 export default invoicesReducer;
 
 // ACTIONS
-export const { setInvoicesFilter, resetInvoices } = invoicesSlice.actions;
+export const {
+	setInvoicesFilter,
+	resetInvoices,
+	setInvoiceOperationSuccess,
+	setInvoiceOperationPending,
+} = invoicesSlice.actions;
 
 // SELECTORS
 const getInvoicesState = (store) => store.invoices;
@@ -147,4 +175,14 @@ export const getFilteredInvoices = createSelector(
 
 export const getInvoicesTotal = createSelector(getFilteredInvoices, (invoices) =>
 	invoices ? Object.keys(invoices).length : null
+);
+
+export const getInvoiceOperationSuccess = createSelector(
+	getInvoicesState,
+	({ invoiceOperationSuccess }) => invoiceOperationSuccess
+);
+
+export const getInvoiceOperationPending = createSelector(
+	getInvoicesState,
+	({ invoiceOperationPending }) => invoiceOperationPending
 );

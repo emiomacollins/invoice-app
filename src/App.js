@@ -21,6 +21,7 @@ function App() {
 	const dispatch = useDispatch();
 	// to avoid showing stuff before the cached user is initialized by firebase
 	const [authInitialized, setAuthInitialized] = useState(false);
+
 	// const invoices = useSelector(getFilteredInvoices);
 
 	useEffect(() => {
@@ -29,8 +30,7 @@ function App() {
 			setAuthInitialized(true);
 			if (!authUser) dispatch(resetInvoices());
 
-			// if (!authUser) return;
-			// uploadInvoices(authUser,invoices);
+			// if (authUser) uploadInvoices(authUser,invoices);
 		});
 		return unsuscribe;
 	}, []);

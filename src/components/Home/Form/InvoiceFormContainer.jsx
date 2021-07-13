@@ -7,10 +7,16 @@ import {
 	getInvoiceFormExpanded,
 	getInvoiceFormIsEditing,
 	setIsEditing,
-	toggleFormExpanded,
+	setFormExpanded,
 } from '../../../redux/invoiceFormSlice';
 import * as yup from 'yup';
-import { addInvoice, updateInvoice } from '../../../redux/invoicesSlice';
+import {
+	addInvoice,
+	getInvoiceOperationSuccess,
+	setInvoiceOperationPending,
+	setInvoiceOperationSuccess,
+	updateInvoice,
+} from '../../../redux/invoicesSlice';
 import { cloneDeep } from 'lodash';
 import { Body, FormContainer, Overlay } from './InvoiceFormStyles';
 import InvoiceFormElement from './InvoiceFormElement';
@@ -19,11 +25,13 @@ import { useEffect } from 'react';
 function InvoiceForm() {
 	const expanded = useSelector(getInvoiceFormExpanded);
 	const isEditing = useSelector(getInvoiceFormIsEditing);
+	const invoiceOperationSuccess = useSelector(getInvoiceOperationSuccess);
+
 	const dispatch = useDispatch();
 	const BodyEl = document.querySelector(`html`);
 
 	function handleCloseForm() {
-		dispatch(toggleFormExpanded());
+		dispatch(setFormExpanded(false));
 		dispatch(setIsEditing(null));
 	}
 
@@ -142,8 +150,15 @@ function InvoiceForm() {
 		isEditing
 			? dispatch(updateInvoice({ ...invoice, id: isEditing.id }))
 			: dispatch(addInvoice(invoice));
-		handleCloseForm();
 	}
+
+	// when you add / update an invoice this triggers
+	useEffect(() => {
+		if (invoiceOperationSuccess) {
+			handleCloseForm();
+			dispatch(setInvoiceOperationSuccess(false));
+		}
+	}, [invoiceOperationSuccess]);
 
 	const animation = {
 		hidden: {

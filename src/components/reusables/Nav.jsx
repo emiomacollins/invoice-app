@@ -125,7 +125,7 @@ function Nav() {
 
 	function handleSignOut() {
 		setPopupExpanded(!popupExpanded);
-		auth.signOut();
+		user.isAnonymous ? user.delete() : auth.signOut();
 	}
 
 	return (

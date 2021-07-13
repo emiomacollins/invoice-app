@@ -41,6 +41,10 @@
     font-weight: 700;
     transition: .2s;
 
+    &:disabled {
+        opacity: .6;
+    }
+
     &:hover {
         background: var(--color-purple-light);
     }
