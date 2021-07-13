@@ -28,17 +28,21 @@ export function signInAsGuest() {
 	auth.signInAnonymously();
 }
 
+// function to upload MockData to firestore
 export function uploadInvoices(authUser, invoices) {
 	const invoicesRef = firestore.collection(`users/${authUser.uid}/invoices`);
 	const batch = firestore.batch();
-	invoices.forEach((invoice, i) => {
+
+	invoices.forEach((invoice) => {
 		const newDocumentRef = invoicesRef.doc();
+
 		batch.set(newDocumentRef, {
 			...invoice,
+			id: newDocumentRef.id,
 			createdAt: new Date(invoice.createdAt).toISOString(),
 			paymentDue: new Date(invoice.paymentDue).toISOString(),
-			id: newDocumentRef.id,
 		});
 	});
+
 	batch.commit();
 }

@@ -108,7 +108,7 @@ export function Select(props) {
 }
 
 const CustomInput = forwardRef(({ value, onClick }, ref) => (
-	// value : a string date value
+	// value : a string date value i.e 10/23/2020
 	// onClick : toggles the calendar visibility
 	<Button type="button" onClick={onClick} ref={ref}>
 		{formatDate(new Date(value))}
@@ -121,7 +121,7 @@ export function DatePicker(props) {
 	const { name, label, ...otherprops } = props;
 
 	return (
-		// have to fix spacing,  can't use grid cus it adds an extra gap
+		// the styles fixes a spacing bug,  can't use grid cus it adds an unnecessary gap
 		// under the datepicker button when the calendar visibility is toggled
 		<FormControl style={{ gap: 0 }}>
 			<Label htmlFor="name" style={{ marginBottom: '1rem' }}>

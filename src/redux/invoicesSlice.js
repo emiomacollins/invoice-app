@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
 import { firestore } from '../firebase/firebaseUtil';
-// import mockData from './invoicesMockData.json';
 
 // THUNKS
 export const fetchInvoices = createAsyncThunk(
@@ -13,6 +12,7 @@ export const fetchInvoices = createAsyncThunk(
 		const invoicesRef = firestore.collection(`users/${user.uid}/invoices`);
 		const snapShot = await invoicesRef.get();
 
+		// firestore does not throw errors
 		if (snapShot.empty && snapShot.metadata.fromCache)
 			throw new Error('failed to fetch invoices');
 
@@ -32,8 +32,8 @@ export const addInvoice = createAsyncThunk(
 			user: { user },
 		} = getState();
 
-		const { uid } = user;
-		const invoicesRef = firestore.collection(`users/${uid}/invoices`);
+		const invoicesRef = firestore.collection(`users/${user.uid}/invoices`);
+		// let firestore generate the id
 		const invoiceDocument = invoicesRef.doc();
 		const invoiceWithId = { ...invoice, id: invoiceDocument.id };
 		await invoiceDocument.set(invoiceWithId);
@@ -48,8 +48,7 @@ export const updateInvoice = createAsyncThunk(
 			user: { user },
 		} = getState();
 
-		const { uid } = user;
-		const invoiceRef = firestore.doc(`users/${uid}/invoices/${newInvoice.id}`);
+		const invoiceRef = firestore.doc(`users/${user.uid}/invoices/${newInvoice.id}`);
 		await invoiceRef.set(newInvoice);
 		return newInvoice;
 	}
@@ -73,7 +72,9 @@ const initialState = {
 	invoices: null,
 	filter: '',
 	isFetching: 'idle',
+	// for updating the ui when backend operations complete
 	invoiceOperationSuccess: false,
+	// for doing things like disabling buttons
 	invoiceOperationPending: false,
 };
 
@@ -89,6 +90,8 @@ const invoicesSlice = createSlice({
 			state.filter = '';
 			state.isFetching = 'idle';
 		},
+
+		// for reseting after the variable has been used
 		setInvoiceOperationSuccess(state, { payload: bool }) {
 			state.invoiceOperationSuccess = bool;
 		},
@@ -107,10 +110,16 @@ const invoicesSlice = createSlice({
 			state.isFetching = false;
 		});
 
+		// SET PENDING STATE
+		[addInvoice.pending, deleteInvoice.pending, updateInvoice.pending].forEach(
+			(actionType, i) => {
+				builder.addCase(actionType, (state) => {
+					state.invoiceOperationPending = true;
+				});
+			}
+		);
+
 		// ADD INVOICE
-		builder.addCase(addInvoice.pending, (state) => {
-			state.invoiceOperationPending = true;
-		});
 		builder.addCase(addInvoice.fulfilled, (state, { payload: invoice }) => {
 			state.invoiceOperationSuccess = true;
 			state.invoiceOperationPending = false;
@@ -118,9 +127,6 @@ const invoicesSlice = createSlice({
 		});
 
 		// UPDATE INVOICE
-		builder.addCase(updateInvoice.pending, (state, { payload: newInvoice }) => {
-			state.invoiceOperationPending = true;
-		});
 		builder.addCase(updateInvoice.fulfilled, (state, { payload: newInvoice }) => {
 			state.invoiceOperationSuccess = true;
 			state.invoiceOperationPending = false;
@@ -128,9 +134,6 @@ const invoicesSlice = createSlice({
 		});
 
 		// DELETE INVOICE
-		builder.addCase(deleteInvoice.pending, (state, { payload: id }) => {
-			state.invoiceOperationPending = true;
-		});
 		builder.addCase(deleteInvoice.fulfilled, (state, { payload: id }) => {
 			state.invoiceOperationSuccess = true;
 			state.invoiceOperationPending = false;
@@ -144,12 +147,8 @@ const invoicesReducer = invoicesSlice.reducer;
 export default invoicesReducer;
 
 // ACTIONS
-export const {
-	setInvoicesFilter,
-	resetInvoices,
-	setInvoiceOperationSuccess,
-	setInvoiceOperationPending,
-} = invoicesSlice.actions;
+export const { setInvoicesFilter, resetInvoices, setInvoiceOperationSuccess } =
+	invoicesSlice.actions;
 
 // SELECTORS
 const getInvoicesState = (store) => store.invoices;
@@ -167,6 +166,7 @@ export const getFilteredInvoices = createSelector(
 		invoices
 			? Object.values(invoices)
 					.filter((invoice) => invoice.status.includes(filter))
+					// sort by invoice date
 					.sort((a, b) =>
 						new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()
 							? -1
