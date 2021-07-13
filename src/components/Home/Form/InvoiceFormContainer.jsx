@@ -13,7 +13,6 @@ import * as yup from 'yup';
 import {
 	addInvoice,
 	getInvoiceOperationSuccess,
-	setInvoiceOperationPending,
 	setInvoiceOperationSuccess,
 	updateInvoice,
 } from '../../../redux/invoicesSlice';
@@ -152,7 +151,7 @@ function InvoiceForm() {
 			: dispatch(addInvoice(invoice));
 	}
 
-	// when you add / update an invoice this triggers
+	// when you add / update an invoice successfully, this triggers
 	useEffect(() => {
 		if (invoiceOperationSuccess) {
 			handleCloseForm();

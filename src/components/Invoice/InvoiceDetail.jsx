@@ -1,7 +1,11 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Badge from '../reusables/Badge';
-import { deleteInvoice, updateInvoice } from '../../redux/invoicesSlice';
+import {
+	deleteInvoice,
+	getInvoiceOperationPending,
+	updateInvoice,
+} from '../../redux/invoicesSlice';
 import { formatDate, formatNumber } from '../../Helpers/Util';
 import {
 	Address,
@@ -25,6 +29,7 @@ import { setIsEditing, setFormExpanded } from '../../redux/invoiceFormSlice';
 
 function InvoiceDetail({ invoice }) {
 	const dispatch = useDispatch();
+	const invoiceOperationPending = useSelector(getInvoiceOperationPending);
 
 	const {
 		status,
@@ -71,18 +76,29 @@ function InvoiceDetail({ invoice }) {
 					<p>Status</p>
 					<Badge status={status} />
 				</Status>
-
 				<Columns>
-					<button onClick={handleEditInvoice} className="btn btn--gray">
+					<button
+						onClick={handleEditInvoice}
+						disabled={invoiceOperationPending}
+						className="btn btn--gray"
+					>
 						Edit
 					</button>
 
-					<button onClick={handleDeleteInvoice} className="btn btn--red">
+					<button
+						onClick={handleDeleteInvoice}
+						disabled={invoiceOperationPending}
+						className="btn btn--red"
+					>
 						Delete
 					</button>
 
 					{status === 'pending' && (
-						<button onClick={handleMarkAsPaid} className="btn">
+						<button
+							onClick={handleMarkAsPaid}
+							disabled={invoiceOperationPending}
+							className="btn"
+						>
 							Mark as paid
 						</button>
 					)}

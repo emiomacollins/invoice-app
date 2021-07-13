@@ -72,4 +72,4 @@ function Header() {
 	);
 }
 
-export default withInvoices(Header);
+export default withInvoices(Header, { withSpinner: false, withError: false });

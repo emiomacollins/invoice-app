@@ -12,7 +12,9 @@ export const fetchInvoices = createAsyncThunk(
 
 		const invoicesRef = firestore.collection(`users/${user.uid}/invoices`);
 		const snapShot = await invoicesRef.get();
-		if (snapShot.empty) return {};
+
+		if (snapShot.empty && snapShot.metadata.fromCache)
+			throw new Error('failed to fetch invoices');
 
 		const invoices = {};
 		snapShot.docs.forEach((document) => {

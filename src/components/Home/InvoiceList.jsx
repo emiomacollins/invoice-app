@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { withInvoices } from '../../Helpers/withInvoices';
 import { getFilteredInvoices } from '../../redux/invoicesSlice';
 import Invoice from './Invoice';
+import NewUserMessage from '../Home/NewUserMessage';
 
 const Container = styled.div`
 	display: grid;
@@ -13,12 +14,14 @@ const Container = styled.div`
 function InvoiceList() {
 	const invoices = useSelector(getFilteredInvoices);
 
-	return (
+	return invoices.length ? (
 		<Container>
 			{invoices.map((invoice) => (
 				<Invoice key={invoice.id} invoice={invoice} />
 			))}
 		</Container>
+	) : (
+		<NewUserMessage />
 	);
 }
 
