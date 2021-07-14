@@ -11,7 +11,7 @@ import Nav from './components/reusables/Nav';
 import InvoicePage from './pages/Invoice/InvoicePage';
 import InvoiceForm from './components/Home/Form/InvoiceFormContainer';
 
-import { auth, firestore } from './firebase/firebaseUtil';
+import { auth } from './firebase/firebaseUtil';
 import { withUser } from './Helpers/withUser';
 
 import { resetInvoices } from './redux/invoicesSlice';

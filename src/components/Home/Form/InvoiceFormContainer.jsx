@@ -120,17 +120,20 @@ function InvoiceForm() {
 			clientEmail,
 			clientName,
 			createdAt: createdAt.toISOString(),
+
 			paymentDue: new Date(
 				// convert payment terms to milliseconds
 				createdAt.getTime() + paymentTerms * 24 * 60 * 60 * 1000
 			).toISOString(),
 			description,
+
 			items: items.map((item) => ({
 				...item,
 				total: item.price * item.quantity || 0,
 			})),
 			paymentTerms,
 			senderAddress,
+
 			status:
 				// if it's being edited and it's either pending or paid set it to either
 				// if it's being saved as draft set it to draft
@@ -140,6 +143,7 @@ function InvoiceForm() {
 					: options?.isDraft
 					? 'draft'
 					: 'pending',
+
 			total: items.reduce((acc, item) => {
 				return acc + item.price * item.quantity || 0;
 			}, 0),

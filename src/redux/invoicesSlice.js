@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
+import { set } from 'lodash';
 import { firestore } from '../firebase/firebaseUtil';
 
 // THUNKS
@@ -17,8 +18,8 @@ export const fetchInvoices = createAsyncThunk(
 			throw new Error('failed to fetch invoices');
 
 		const invoices = {};
-		snapShot.docs.forEach((document) => {
-			invoices[document.id] = document.data();
+		snapShot.docs.forEach((doc) => {
+			invoices[doc.id] = { ...doc.data(), id: doc.id };
 		});
 
 		return invoices;
@@ -33,11 +34,10 @@ export const addInvoice = createAsyncThunk(
 		} = getState();
 
 		const invoicesRef = firestore.collection(`users/${user.uid}/invoices`);
+
 		// let firestore generate the id
-		const invoiceDocument = invoicesRef.doc();
-		const invoiceWithId = { ...invoice, id: invoiceDocument.id };
-		await invoiceDocument.set(invoiceWithId);
-		return invoiceWithId;
+		const invoiceRef = await invoicesRef.add(invoice);
+		return { ...invoice, id: invoiceRef.id };
 	}
 );
 
@@ -106,7 +106,8 @@ const invoicesSlice = createSlice({
 			state.invoices = invoices;
 			state.isFetching = false;
 		});
-		builder.addCase(fetchInvoices.rejected, (state) => {
+		builder.addCase(fetchInvoices.rejected, (state, error) => {
+			console.log(error);
 			state.isFetching = false;
 		});
 
@@ -115,6 +116,17 @@ const invoicesSlice = createSlice({
 			(actionType, i) => {
 				builder.addCase(actionType, (state) => {
 					state.invoiceOperationPending = true;
+				});
+			}
+		);
+
+		// SET PENDING STATE & LOG ERRORS ON FAILED OPERATIONS
+		// todo (show ui message later)
+		[addInvoice.rejected, deleteInvoice.rejected, updateInvoice.rejected].forEach(
+			(actionType) => {
+				builder.addCase(actionType, (state, error) => {
+					state.invoiceOperationPending = false;
+					console.log(error);
 				});
 			}
 		);
