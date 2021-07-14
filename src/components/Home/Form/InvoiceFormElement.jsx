@@ -78,7 +78,7 @@ function InvoiceFormElement({ handleCloseForm, onSubmit }) {
 					Discard
 				</button>
 
-				{values.status !== 'pending' && (
+				{!['pending', 'paid'].includes(values.status) && (
 					<button
 						onClick={handleSaveAsDraft}
 						disabled={invoiceOperationPending}

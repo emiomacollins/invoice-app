@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
-import { set } from 'lodash';
 import { firestore } from '../firebase/firebaseUtil';
 
 // THUNKS
@@ -49,7 +48,8 @@ export const updateInvoice = createAsyncThunk(
 		} = getState();
 
 		const invoiceRef = firestore.doc(`users/${user.uid}/invoices/${newInvoice.id}`);
-		await invoiceRef.set(newInvoice);
+		const { id, status, ...withoutId } = newInvoice;
+		await invoiceRef.set(withoutId);
 		return newInvoice;
 	}
 );
