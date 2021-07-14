@@ -48,7 +48,7 @@ export const updateInvoice = createAsyncThunk(
 		} = getState();
 
 		const invoiceRef = firestore.doc(`users/${user.uid}/invoices/${newInvoice.id}`);
-		const { id, status, ...withoutId } = newInvoice;
+		const { id, ...withoutId } = newInvoice;
 		await invoiceRef.set(withoutId);
 		return newInvoice;
 	}
