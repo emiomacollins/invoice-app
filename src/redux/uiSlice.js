@@ -1,8 +1,19 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
+
+export const chechInternetConnection = createAsyncThunk(
+	'ui/checkInternetConnection',
+	(params, { dispatch }) => {
+		window.addEventListener('online', () => dispatch(setUiMessage('')));
+		window.addEventListener('offline', () =>
+			dispatch(setUiMessage('Check your internet'))
+		);
+	}
+);
 
 const initialState = {
 	userProfilePopupExpanded: false,
 	filterBoxExpanded: false,
+	message: '',
 };
 
 const uiSlice = createSlice({
@@ -15,6 +26,9 @@ const uiSlice = createSlice({
 		setFilterBoxExpanded(state, { payload: bool }) {
 			state.filterBoxExpanded = bool;
 		},
+		setUiMessage(state, { payload: message }) {
+			state.message = message;
+		},
 	},
 });
 
@@ -23,10 +37,13 @@ const uiReducer = uiSlice.reducer;
 export default uiReducer;
 
 // ACTIONS
-export const { setUserProfilePopupExpanded, setFilterBoxExpanded } = uiSlice.actions;
+export const { setUserProfilePopupExpanded, setFilterBoxExpanded, setUiMessage } =
+	uiSlice.actions;
 
 // SELECTORS
 const getUiState = (store) => store.ui;
+
+export const getUiMessage = createSelector(getUiState, ({ message }) => message);
 
 export const getFilterBoxExpanded = createSelector(
 	getUiState,

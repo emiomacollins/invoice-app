@@ -8,6 +8,11 @@ const ErrorMessage = styled.p`
 	text-align: center;
 `;
 
+const Retry = styled.span`
+	color: var(--color-accent);
+	cursor: pointer;
+`;
+
 export function withInvoices(
 	Component,
 	options = { withSpinner: true, withError: true }
@@ -15,6 +20,10 @@ export function withInvoices(
 	const Wrapper = (props) => {
 		const status = useSelector(getInvoicesFetchingStatus);
 		const dispatch = useDispatch();
+
+		function handleFetchInvoices() {
+			dispatch(fetchInvoices());
+		}
 
 		if (status === 'idle') {
 			dispatch(fetchInvoices());
@@ -28,7 +37,8 @@ export function withInvoices(
 		if (status === 'rejected')
 			return options?.withError ? (
 				<ErrorMessage>
-					Failed to fetch Invoices, try reloading the page
+					Failed to fetch Invoices,{' '}
+					<Retry onClick={handleFetchInvoices}>Retry.</Retry>
 				</ErrorMessage>
 			) : null;
 

@@ -32,15 +32,19 @@ export const fetchInvoices = createAsyncThunk(
 export const addInvoice = createAsyncThunk(
 	'invoices/addInvoice',
 	async (invoice, { getState }) => {
-		const {
-			user: { user },
-		} = getState();
+		try {
+			const {
+				user: { user },
+			} = getState();
 
-		const invoicesRef = firestore.collection(`users/${user.uid}/invoices`);
+			const invoicesRef = firestore.collection(`users/${user.uid}/invoices`);
 
-		// let firestore generate the id
-		const invoiceRef = await invoicesRef.add(invoice);
-		return { ...invoice, id: invoiceRef.id };
+			// let firestore generate the id
+			const invoiceRef = await invoicesRef.add(invoice);
+			return { ...invoice, id: invoiceRef.id };
+		} catch (error) {
+			console.log(error);
+		}
 	}
 );
 

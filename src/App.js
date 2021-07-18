@@ -16,6 +16,8 @@ import { withUser } from './Helpers/withUser';
 
 import { resetInvoices } from './redux/invoicesSlice';
 import { setUser } from './redux/userSlice';
+import { chechInternetConnection } from './redux/uiSlice';
+import Message from './components/reusables/Message';
 
 function App() {
 	const dispatch = useDispatch();
@@ -28,11 +30,14 @@ function App() {
 			setAuthInitialized(true);
 			if (!authUser) dispatch(resetInvoices());
 		});
+
+		dispatch(chechInternetConnection());
 		return unsuscribe;
 	}, []);
 
 	return authInitialized ? (
 		<>
+			<Message />
 			<Nav />
 			<InvoiceForm />
 			<Switch>
