@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Badge from '../reusables/Badge';
 import {
 	deleteInvoice,
-	getInvoiceOperationPending,
+	getInvoiceOperationStatus,
 	updateInvoice,
 } from '../../redux/invoicesSlice';
 import { formatDate, formatNumber } from '../../Helpers/Util';
@@ -29,7 +29,7 @@ import { setIsEditing, setFormExpanded } from '../../redux/invoiceFormSlice';
 
 function InvoiceDetail({ invoice }) {
 	const dispatch = useDispatch();
-	const invoiceOperationPending = useSelector(getInvoiceOperationPending);
+	const invoiceOperationStatus = useSelector(getInvoiceOperationStatus);
 
 	const {
 		status,
@@ -79,7 +79,7 @@ function InvoiceDetail({ invoice }) {
 				<Columns>
 					<button
 						onClick={handleEditInvoice}
-						disabled={invoiceOperationPending}
+						disabled={invoiceOperationStatus === 'pending'}
 						className="btn btn--gray"
 					>
 						Edit
@@ -87,7 +87,7 @@ function InvoiceDetail({ invoice }) {
 
 					<button
 						onClick={handleDeleteInvoice}
-						disabled={invoiceOperationPending}
+						disabled={invoiceOperationStatus === 'pending'}
 						className="btn btn--red"
 					>
 						Delete
@@ -96,7 +96,7 @@ function InvoiceDetail({ invoice }) {
 					{status === 'pending' && (
 						<button
 							onClick={handleMarkAsPaid}
-							disabled={invoiceOperationPending}
+							disabled={invoiceOperationStatus === 'pending'}
 							className="btn"
 						>
 							Mark as paid

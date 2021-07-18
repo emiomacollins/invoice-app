@@ -1,11 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Spinner from '../components/reusables/Spinner';
-import {
-	fetchInvoices,
-	getInvoices,
-	getIsFetchingInvoices,
-} from '../redux/invoicesSlice';
+import { fetchInvoices, getInvoicesFetchingStatus } from '../redux/invoicesSlice';
 
 const ErrorMessage = styled.p`
 	text-align: center;
@@ -16,20 +12,19 @@ export function withInvoices(
 	options = { withSpinner: true, withError: true }
 ) {
 	const Wrapper = (props) => {
-		const isFetchingInvoices = useSelector(getIsFetchingInvoices);
-		const invoices = useSelector(getInvoices);
+		const status = useSelector(getInvoicesFetchingStatus);
 		const dispatch = useDispatch();
 
-		if (isFetchingInvoices === 'idle') {
+		if (status === 'idle') {
 			dispatch(fetchInvoices());
 			return null;
 		}
 
-		if (isFetchingInvoices === true) {
+		if (status === 'pending') {
 			return options?.withSpinner ? <Spinner /> : null;
 		}
 
-		if (isFetchingInvoices === false && !invoices)
+		if (status === 'rejected')
 			return options?.withError ? (
 				<ErrorMessage>
 					Failed to fetch Invoices, try reloading the page

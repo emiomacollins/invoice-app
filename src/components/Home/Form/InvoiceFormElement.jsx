@@ -2,7 +2,7 @@ import { useFormikContext } from 'formik';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { getInvoiceFormIsEditing } from '../../../redux/invoiceFormSlice';
-import { getInvoiceOperationPending } from '../../../redux/invoicesSlice';
+import { getInvoiceOperationStatus } from '../../../redux/invoicesSlice';
 import { DatePicker, Select, Textbox } from '../../reusables/FormElements';
 import {
 	BillFrom,
@@ -18,7 +18,7 @@ function InvoiceFormElement({ handleCloseForm, onSubmit }) {
 	const Formik = useFormikContext();
 	const { values } = Formik;
 	const isEditing = useSelector(getInvoiceFormIsEditing);
-	const invoiceOperationPending = useSelector(getInvoiceOperationPending);
+	const invoiceOperationStatus = useSelector(getInvoiceOperationStatus);
 
 	function handleSaveAsDraft() {
 		onSubmit(values, Formik, { isDraft: true });
@@ -81,7 +81,7 @@ function InvoiceFormElement({ handleCloseForm, onSubmit }) {
 				{!['pending', 'paid'].includes(values.status) && (
 					<button
 						onClick={handleSaveAsDraft}
-						disabled={invoiceOperationPending}
+						disabled={invoiceOperationStatus === 'pending'}
 						className="btn btn--gray"
 					>
 						Save as Draft
@@ -92,7 +92,7 @@ function InvoiceFormElement({ handleCloseForm, onSubmit }) {
 					form="formik"
 					className="btn"
 					type="submit"
-					disabled={invoiceOperationPending}
+					disabled={invoiceOperationStatus === 'pending'}
 				>
 					{isEditing ? 'Save Changes' : 'Save and Send'}
 				</button>

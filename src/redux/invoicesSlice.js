@@ -9,7 +9,10 @@ export const fetchInvoices = createAsyncThunk(
 			user: { user },
 		} = getState();
 
-		const invoicesRef = firestore.collection(`users/${user.uid}/invoices`);
+		const invoicesRef = firestore
+			.collection(`users/${user.uid}/invoices`)
+			// fix
+			.orderBy('createdAt');
 		const snapShot = await invoicesRef.get();
 
 		// firestore does not throw errors
@@ -71,11 +74,8 @@ export const deleteInvoice = createAsyncThunk(
 const initialState = {
 	invoices: null,
 	filter: '',
-	isFetching: 'idle',
-	// for updating the ui when backend operations complete
-	invoiceOperationSuccess: false,
-	// for doing things like disabling buttons
-	invoiceOperationPending: false,
+	fetchingStatus: 'idle',
+	operationStatus: 'idle',
 };
 
 const invoicesSlice = createSlice({
@@ -85,70 +85,64 @@ const invoicesSlice = createSlice({
 		setInvoicesFilter(state, { payload: filter }) {
 			state.filter = filter;
 		},
+
 		resetInvoices(state) {
 			state.invoices = [];
 			state.filter = '';
-			state.isFetching = 'idle';
+			state.fetchingStatus = 'idle';
 		},
 
-		// for reseting after the variable has been used
-		setInvoiceOperationSuccess(state, { payload: bool }) {
-			state.invoiceOperationSuccess = bool;
+		// for reseting
+		setInvoiceOperationStatus(state, { payload: status }) {
+			state.operationStatus = status;
 		},
 	},
 
 	extraReducers: (builder) => {
 		// FETCH INVOICE
 		builder.addCase(fetchInvoices.pending, (state) => {
-			state.isFetching = true;
+			state.fetchingStatus = 'pending';
 		});
 		builder.addCase(fetchInvoices.fulfilled, (state, { payload: invoices }) => {
 			state.invoices = invoices;
-			state.isFetching = false;
+			state.fetchingStatus = 'fufilled';
 		});
 		builder.addCase(fetchInvoices.rejected, (state, error) => {
 			console.log(error);
-			state.isFetching = false;
+			state.fetchingStatus = 'rejected';
 		});
 
 		// SET PENDING STATE
-		[addInvoice.pending, deleteInvoice.pending, updateInvoice.pending].forEach(
-			(actionType, i) => {
-				builder.addCase(actionType, (state) => {
-					state.invoiceOperationPending = true;
-				});
-			}
-		);
+		[addInvoice, deleteInvoice, updateInvoice].forEach((actionType, i) => {
+			builder.addCase(actionType.pending, (state) => {
+				state.operationStatus = 'pending';
+			});
+		});
 
 		// SET PENDING STATE & LOG ERRORS ON FAILED OPERATIONS
 		// todo (show ui message later)
-		[addInvoice.rejected, deleteInvoice.rejected, updateInvoice.rejected].forEach(
-			(actionType) => {
-				builder.addCase(actionType, (state, error) => {
-					state.invoiceOperationPending = false;
-					console.log(error);
-				});
-			}
-		);
+		[addInvoice, deleteInvoice, updateInvoice].forEach((actionType) => {
+			builder.addCase(actionType.rejected, (state, error) => {
+				state.operationStatus = 'rejected';
+				console.log(error);
+			});
+		});
 
 		// ADD INVOICE
 		builder.addCase(addInvoice.fulfilled, (state, { payload: invoice }) => {
-			state.invoiceOperationSuccess = true;
-			state.invoiceOperationPending = false;
+			state.operationStatus = 'fufilled';
 			state.invoices[invoice.id] = invoice;
 		});
 
 		// UPDATE INVOICE
 		builder.addCase(updateInvoice.fulfilled, (state, { payload: newInvoice }) => {
-			state.invoiceOperationSuccess = true;
-			state.invoiceOperationPending = false;
+			state.operationStatus = 'fufilled';
 			state.invoices[newInvoice.id] = newInvoice;
 		});
 
 		// DELETE INVOICE
 		builder.addCase(deleteInvoice.fulfilled, (state, { payload: id }) => {
-			state.invoiceOperationSuccess = true;
-			state.invoiceOperationPending = false;
+			state.operationStatus = 'fufilled';
 			delete state.invoices[id];
 		});
 	},
@@ -159,7 +153,7 @@ const invoicesReducer = invoicesSlice.reducer;
 export default invoicesReducer;
 
 // ACTIONS
-export const { setInvoicesFilter, resetInvoices, setInvoiceOperationSuccess } =
+export const { setInvoicesFilter, resetInvoices, setInvoiceOperationStatus } =
 	invoicesSlice.actions;
 
 // SELECTORS
@@ -167,23 +161,11 @@ const getInvoicesState = (store) => store.invoices;
 export const getInvoices = createSelector(getInvoicesState, ({ invoices }) => invoices);
 export const getInvoicesFilter = createSelector(getInvoicesState, ({ filter }) => filter);
 
-export const getIsFetchingInvoices = createSelector(
-	getInvoicesState,
-	({ isFetching }) => isFetching
-);
-
 export const getFilteredInvoices = createSelector(
 	getInvoicesState,
 	({ invoices, filter }) =>
 		invoices
-			? Object.values(invoices)
-					.filter((invoice) => invoice.status.includes(filter))
-					// sort by invoice date
-					.sort((a, b) =>
-						new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()
-							? -1
-							: 1
-					)
+			? Object.values(invoices).filter((invoice) => invoice.status.includes(filter))
 			: null
 );
 
@@ -191,12 +173,12 @@ export const getInvoicesTotal = createSelector(getFilteredInvoices, (invoices) =
 	invoices ? Object.keys(invoices).length : null
 );
 
-export const getInvoiceOperationSuccess = createSelector(
+export const getInvoicesFetchingStatus = createSelector(
 	getInvoicesState,
-	({ invoiceOperationSuccess }) => invoiceOperationSuccess
+	({ fetchingStatus }) => fetchingStatus
 );
 
-export const getInvoiceOperationPending = createSelector(
+export const getInvoiceOperationStatus = createSelector(
 	getInvoicesState,
-	({ invoiceOperationPending }) => invoiceOperationPending
+	({ operationStatus }) => operationStatus
 );
