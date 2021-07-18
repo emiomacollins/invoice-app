@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Spinner from '../components/reusables/Spinner';
-import { fetchInvoices, getInvoicesFetchingStatus } from '../redux/invoicesSlice';
+import { getInvoicesFetchingStatus } from '../redux/invoicesSlice';
+import { fetchInvoices } from '../redux/invoicesThunks';
 
 const ErrorMessage = styled.p`
 	text-align: center;

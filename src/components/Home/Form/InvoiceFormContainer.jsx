@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from 'formik';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -23,20 +23,19 @@ function InvoiceForm() {
 	const isEditing = useSelector(getInvoiceFormIsEditing);
 	const invoiceOperationStatus = useSelector(getInvoiceOperationStatus);
 	const { onSubmit, validationSchema, initialValues } = useFormikConfig();
-
 	const dispatch = useDispatch();
 	const BodyEl = document.querySelector(`html`);
+
+	function handleCloseForm() {
+		dispatch(setFormExpanded(false));
+		dispatch(setIsEditing(null));
+	}
 
 	useEffect(() => {
 		if (expanded) {
 			BodyEl.style.overflowY = 'hidden';
 		} else BodyEl.style.overflowY = 'scroll';
 	}, [expanded]);
-
-	function handleCloseForm() {
-		dispatch(setFormExpanded(false));
-		dispatch(setIsEditing(null));
-	}
 
 	// when you add / update an invoice successfully, this triggers
 	useEffect(() => {

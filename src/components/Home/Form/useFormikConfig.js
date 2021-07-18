@@ -2,7 +2,7 @@ import { cloneDeep } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
 import { getInvoiceFormIsEditing } from '../../../redux/invoiceFormSlice';
-import { addInvoice, updateInvoice } from '../../../redux/invoicesSlice';
+import { addInvoice, updateInvoice } from '../../../redux/invoicesThunks';
 
 export function useFormikConfig() {
 	const isEditing = useSelector(getInvoiceFormIsEditing);

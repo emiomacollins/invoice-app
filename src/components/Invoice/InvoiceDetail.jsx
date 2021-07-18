@@ -1,11 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Badge from '../reusables/Badge';
-import {
-	deleteInvoice,
-	getInvoiceOperationStatus,
-	updateInvoice,
-} from '../../redux/invoicesSlice';
+import { getInvoiceOperationStatus } from '../../redux/invoicesSlice';
 import { formatDate, formatNumber } from '../../Helpers/Util';
 import {
 	Address,
@@ -26,6 +22,7 @@ import {
 	Title,
 } from './invoiceDetailStyles';
 import { setIsEditing, setFormExpanded } from '../../redux/invoiceFormSlice';
+import { deleteInvoice, updateInvoice } from '../../redux/invoicesThunks';
 
 function InvoiceDetail({ invoice }) {
 	const dispatch = useDispatch();

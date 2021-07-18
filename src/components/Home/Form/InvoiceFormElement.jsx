@@ -78,6 +78,7 @@ function InvoiceFormElement({ handleCloseForm, onSubmit }) {
 					Discard
 				</button>
 
+				{/* only show save as draft if the invoice status is draft */}
 				{!['pending', 'paid'].includes(values.status) && (
 					<button
 						onClick={handleSaveAsDraft}
