@@ -4,6 +4,40 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { getUiMessage, setUiMessage } from '../../redux/uiSlice';
 
+function Message() {
+	const dispatch = useDispatch();
+	const message = useSelector(getUiMessage);
+
+	function handleHideMessage() {
+		dispatch(setUiMessage(''));
+	}
+
+	return (
+		<AnimatePresence>
+			{message && (
+				<Overlay onClick={handleHideMessage}>
+					<Container
+						variants={animations}
+						initial="hide"
+						animate="show"
+						exit="hide"
+					>
+						{message}
+					</Container>
+				</Overlay>
+			)}
+		</AnimatePresence>
+	);
+}
+
+export default Message;
+
+// STYLES
+const animations = {
+	hide: { y: -100, x: -50 },
+	show: { y: 50, x: -50 },
+};
+
 const Container = styled(motion.div)`
 	padding: 2rem;
 	background: var(--color-purple);
@@ -27,30 +61,3 @@ const Overlay = styled.div`
 	height: 100vh;
 	background: var(--color-overlay);
 `;
-
-function Message() {
-	const message = useSelector(getUiMessage);
-	const dispatch = useDispatch();
-
-	function handleClose() {
-		dispatch(setUiMessage(''));
-	}
-
-	return (
-		<AnimatePresence>
-			{message && (
-				<Overlay onClick={handleClose}>
-					<Container
-						initial={{ y: -100, x: -50 }}
-						animate={{ y: 50, x: -50 }}
-						exit={{ y: -100, x: -50 }}
-					>
-						{message}
-					</Container>
-				</Overlay>
-			)}
-		</AnimatePresence>
-	);
-}
-
-export default Message;
