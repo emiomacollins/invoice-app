@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link, Redirect, useRouteMatch, withRouter } from 'react-router-dom';
+import { Link, Redirect, useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
 import { ArrowLeft } from '../../assets/CustomSvgs';
 import InvoiceDetail from '../../components/Invoice/InvoiceDetail';
