@@ -1,11 +1,12 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link, Redirect, withRouter } from 'react-router-dom';
+import { Link, Redirect, useRouteMatch, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { ArrowLeft } from '../../assets/CustomSvgs';
 import InvoiceDetail from '../../components/Invoice/InvoiceDetail';
 import { withInvoices } from '../../Helpers/withInvoices';
+import { withUser } from '../../Helpers/withUser';
 import { getInvoices } from '../../redux/invoicesSlice';
 import { opacityAnimations } from '../Home/Home';
 
@@ -15,14 +16,15 @@ const Container = styled(motion.div)`
 `;
 
 const BackBtn = styled(Link)`
-	display: grid;
+	display: grid !important;
 	grid-template-columns: auto auto;
 	align-items: center;
 	gap: 1rem;
 	justify-self: left;
 `;
 
-function InvoicePage({ match }) {
+function InvoicePage() {
+	const match = useRouteMatch();
 	const { id: invoiceID } = match.params;
 	const invoicesObj = useSelector(getInvoices);
 	const invoice = invoicesObj[invoiceID];
@@ -48,4 +50,4 @@ function InvoicePage({ match }) {
 	);
 }
 
-export default withInvoices(withRouter(InvoicePage));
+export default withInvoices(withUser(InvoicePage));

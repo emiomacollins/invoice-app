@@ -99,10 +99,15 @@ export const getInvoicesFilter = createSelector(getInvoicesState, ({ filter }) =
 
 export const getFilteredInvoices = createSelector(
 	getInvoicesState,
-	({ invoices, filter }) =>
-		invoices
-			? Object.values(invoices).filter((invoice) => invoice.status.includes(filter))
-			: null
+	({ invoices, filter }) => {
+		return invoices
+			? Object.values(invoices)
+					.filter((invoice) => invoice.status.includes(filter))
+					.sort((a, b) =>
+						new Date(a.createdAt) > new Date(b.createdAt) ? -1 : 1
+					)
+			: null;
+	}
 );
 
 export const getInvoicesTotal = createSelector(getFilteredInvoices, (invoices) =>

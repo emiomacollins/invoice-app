@@ -12,12 +12,12 @@ import InvoicePage from './pages/Invoice/InvoicePage';
 import InvoiceForm from './components/Home/Form/InvoiceFormContainer';
 
 import { auth } from './firebase/firebaseUtil';
-import { withUser } from './Helpers/withUser';
 
 import { resetInvoices } from './redux/invoicesSlice';
 import { setUser } from './redux/userSlice';
 import { chechInternetConnection } from './redux/uiSlice';
 import Message from './components/reusables/Message';
+import { Fragment } from 'react';
 
 function App() {
 	const dispatch = useDispatch();
@@ -35,17 +35,21 @@ function App() {
 		return unsuscribe;
 	}, []);
 
-	return authInitialized ? (
-		<>
+	return (
+		<Fragment>
 			<Message />
 			<Nav />
-			<InvoiceForm />
-			<Switch>
-				<Route exact path="/" component={Home} />
-				<Route exact path="/invoice/:id" component={withUser(InvoicePage)} />
-			</Switch>
-		</>
-	) : null;
+			{authInitialized ? (
+				<Fragment>
+					<InvoiceForm />
+					<Switch>
+						<Route exact path="/" component={Home} />
+						<Route exact path="/invoice/:id" component={InvoicePage} />
+					</Switch>
+				</Fragment>
+			) : null}
+		</Fragment>
+	);
 }
 
 export default App;
